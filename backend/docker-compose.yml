@@ -1,0 +1,13 @@
+services:
+  postgres:
+    image: postgres:16
+    container_name: pg-kt
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: kads
+      POSTGRES_USER: kads
+      POSTGRES_PASSWORD: kads1234
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./local_pgdata:/var/lib/postgresql/data

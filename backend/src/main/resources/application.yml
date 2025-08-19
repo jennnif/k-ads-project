@@ -1,0 +1,25 @@
+server:
+  port: 8080
+
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/kads
+    username: kads
+    password: kads1234
+    driver-class-name: org.postgresql.Driver   # ⬅ 강제 지정
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect  # ⬅ 강제 지정
+    hibernate:
+      ddl-auto: update
+    open-in-view: false
+    properties:
+      hibernate.format_sql: true
+
+logging:
+  level:
+    org.hibernate.SQL: debug
+    org.hibernate.orm.jdbc.bind: trace
+
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
