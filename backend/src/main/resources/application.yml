@@ -6,19 +6,22 @@ spring:
     url: jdbc:postgresql://localhost:5432/kads
     username: kads
     password: kads1234
-    driver-class-name: org.postgresql.Driver   # ⬅ 강제 지정
+    driver-class-name: org.postgresql.Driver   # 명시해도 무방 (자동감지 가능)
+
   jpa:
-    database-platform: org.hibernate.dialect.PostgreSQLDialect  # ⬅ 강제 지정
     hibernate:
-      ddl-auto: update
+      ddl-auto: validate                       # 이미 테이블이 있으면 validate 권장 (스키마 보호)
+      # 필요 시 update로 바꿔도 됨
     open-in-view: false
     properties:
-      hibernate.format_sql: true
+      hibernate:
+        format_sql: true
+        dialect: org.hibernate.dialect.PostgreSQLDialect  # 강제 지정(자동감지되지만 명시 OK)
 
 logging:
   level:
     org.hibernate.SQL: debug
-    org.hibernate.orm.jdbc.bind: trace
+    org.hibernate.orm.jdbc.bind: trace         # 바인딩 파라미터까지 로깅
 
 springdoc:
   swagger-ui:

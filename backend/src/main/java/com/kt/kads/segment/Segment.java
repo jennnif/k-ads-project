@@ -1,30 +1,28 @@
 package com.kt.kads.segment;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
 
 @Entity
-@Table(name = "segments",
-       uniqueConstraints = @UniqueConstraint(columnNames = {"name", "parent_id"}))
+@Table(name = "segments")
 public class Segment {
 
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank
-    @Column(nullable = false, length = 50)
+    @Column(nullable = false, length = 200)
     private String name;
 
-    // null이면 대분류, 있으면 중분류(Self Join)
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "parent_id")
-    private Segment parent;
+    @Column(name = "parent_id")
+    private Long parentId;
 
-    // --- getters/setters ---
+    // getters/setters
     public Long getId() { return id; }
-    public String getName() { return name; }
-    public Segment getParent() { return parent; }
     public void setId(Long id) { this.id = id; }
+
+    public String getName() { return name; }
     public void setName(String name) { this.name = name; }
-    public void setParent(Segment parent) { this.parent = parent; }
+
+    public Long getParentId() { return parentId; }
+    public void setParentId(Long parentId) { this.parentId = parentId; }
 }
