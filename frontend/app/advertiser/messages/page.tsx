@@ -39,9 +39,9 @@ export default function AdvertiserMessagesPage(){
       <PageHeader title="메시지 관리" tabs={
         <div className="flex items-center justify-between rounded-full bg-white border shadow-sm px-3 py-2">
           <div className="flex gap-6 text-sm">
-            <Link href="/advertiser/campaigns" className="text-gray-500 hover:text-gray-900">캠페인 관리</Link>
-            <Link href="/advertiser/messages" className="font-semibold">메시지 관리</Link>
-            <Link href="/advertiser/kpi" className="text-gray-500 hover:text-gray-900">KPI 데이터 표출</Link>
+            <Link href="/advertiser/campaigns" className="text-black hover:text-gray-700">캠페인 관리</Link>
+            <Link href="/advertiser/messages" className="font-semibold text-black">메시지 관리</Link>
+            <Link href="/advertiser/kpi" className="text-black hover:text-gray-700">KPI 데이터 표출</Link>
           </div>
         </div>
       }/>

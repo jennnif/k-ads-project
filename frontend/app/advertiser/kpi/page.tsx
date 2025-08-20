@@ -3,7 +3,7 @@ import PageHeader from "@/components/ui/PageHeader";
 import { Card, CardBody } from "@/components/ui/Card";
 import { listCampaigns, getKpiDashboard, getCampaignsPerformance, type Campaign, type KpiDashboard, type CampaignPerformance } from "@/lib/api";
 import { useEffect, useState } from "react";
-import { TrendingUp, MousePointer, Target, DollarSign, BarChart3 } from "lucide-react";
+import { BarChart3, TrendingUp, MousePointer, Target, DollarSign, Download } from "lucide-react";
 import Link from "next/link";
 
 export default function AdvertiserKpiPage(){
@@ -30,6 +30,60 @@ export default function AdvertiserKpiPage(){
   useEffect(()=>{ 
     loadData();
   },[selectedCampaignId]);
+
+  // CSV 다운로드 함수
+  const downloadCSV = (type: 'summary' | 'detailed') => {
+    try {
+      let csvContent = '';
+      let filename = '';
+
+      if (type === 'summary') {
+        // 요약 데이터 CSV
+        csvContent = '캠페인명,총 발송,총 클릭,총 전환,총 비용,CTR,CVR,CPM\n';
+        
+        campaignPerformance.forEach(campaign => {
+          const ctr = campaign.sent > 0 ? ((campaign.clicks / campaign.sent) * 100).toFixed(2) : '0';
+          const cvr = campaign.clicks > 0 ? ((campaign.conversions / campaign.clicks) * 100).toFixed(2) : '0';
+          const cpm = campaign.sent > 0 ? (Number(campaign.cost) / campaign.sent * 1000).toFixed(2) : '0';
+          
+          csvContent += `"${campaign.campaignName}",${campaign.sent},${campaign.clicks},${campaign.conversions},${campaign.cost},${ctr}%,${cvr}%,₩${cpm}\n`;
+        });
+        
+        filename = `kpi_summary_${new Date().toISOString().split('T')[0]}.csv`;
+      } else {
+        // 상세 데이터 CSV
+        csvContent = '날짜,캠페인명,세그먼트,채널,발송,클릭,전환,비용,CTR,CVR,CPM\n';
+        
+        campaignPerformance.forEach(campaign => {
+          const ctr = campaign.sent > 0 ? ((campaign.clicks / campaign.sent) * 100).toFixed(2) : '0';
+          const cvr = campaign.clicks > 0 ? ((campaign.conversions / campaign.clicks) * 100).toFixed(2) : '0';
+          const cpm = campaign.sent > 0 ? (Number(campaign.cost) / campaign.sent * 1000).toFixed(2) : '0';
+          
+          // 현재 날짜로 데이터 생성 (실제로는 API에서 날짜별 데이터를 가져와야 함)
+          const today = new Date().toISOString().split('T')[0];
+          csvContent += `"${today}","${campaign.campaignName}","세그먼트","혼합",${campaign.sent},${campaign.clicks},${campaign.conversions},${campaign.cost},${ctr}%,${cvr}%,₩${cpm}\n`;
+        });
+        
+        filename = `kpi_detailed_${new Date().toISOString().split('T')[0]}.csv`;
+      }
+
+      // CSV 파일 다운로드
+      const blob = new Blob(['\uFEFF' + csvContent], { type: 'text/csv;charset=utf-8;' });
+      const link = document.createElement('a');
+      const url = URL.createObjectURL(blob);
+      link.setAttribute('href', url);
+      link.setAttribute('download', filename);
+      link.style.visibility = 'hidden';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      
+      alert(`${type === 'summary' ? '요약' : '상세'} CSV 파일이 다운로드되었습니다.`);
+    } catch (error) {
+      console.error('CSV 다운로드 실패:', error);
+      alert('CSV 다운로드에 실패했습니다.');
+    }
+  };
 
   // 실제 API 데이터를 기반으로 KPI 카드 생성
   const kpis = kpiData ? [
@@ -99,6 +153,21 @@ export default function AdvertiserKpiPage(){
             <Link href="/advertiser/messages" className="text-gray-500 hover:text-gray-900">메시지 관리</Link>
             <Link href="/advertiser/kpi" className="font-semibold">KPI 데이터 표출</Link>
           </div>
+          {/* CSV 다운로드 버튼들 */}
+          <div className="flex gap-2">
+            <button 
+              onClick={() => downloadCSV('summary')}
+              className="px-3 py-2 rounded-lg bg-green-600 text-white text-sm flex items-center gap-2 hover:bg-green-700"
+            >
+              <Download size={16}/> 요약 CSV
+            </button>
+            <button 
+              onClick={() => downloadCSV('detailed')}
+              className="px-3 py-2 rounded-lg bg-blue-600 text-white text-sm flex items-center gap-2 hover:bg-blue-700"
+            >
+              <Download size={16}/> 상세 CSV
+            </button>
+          </div>
         </div>
       }/>
 
@@ -138,9 +207,7 @@ export default function AdvertiserKpiPage(){
               onChange={(e)=>setSelectedCampaignId(e.target.value)}
             >
               <option value="">전체 캠페인</option>
-              {campaigns.map(c=>(
-                <option key={c.id} value={c.id}>[{c.id}] {c.name}</option>
-              ))}
+              {campaigns.map(c=>(<option key={c.id} value={c.id}>[{c.id}] {c.name}</option>))}
             </select>
             <button onClick={loadData} className="px-4 py-2 rounded-lg border hover:bg-gray-50 text-black">
               적용
@@ -149,11 +216,20 @@ export default function AdvertiserKpiPage(){
         </CardBody>
       </Card>
 
-      {/* 캠페인별 성과 테이블 */}
+      {/* 캠페인별 성과 데이터 */}
       <Card className="rounded-xl overflow-hidden">
-        <div className="px-5 py-3 border-b flex items-center gap-2 bg-white">
-          <BarChart3 size={20} className="text-black"/>
-          <h3 className="font-semibold text-black">캠페인별 성과 데이터</h3>
+        <div className="px-5 py-3 border-b flex items-center justify-between bg-white">
+          <div className="flex items-center gap-2">
+            <BarChart3 size={20} className="text-black"/>
+            <h3 className="font-semibold text-black">캠페인별 성과 데이터</h3>
+          </div>
+          {/* 테이블 CSV 다운로드 버튼 */}
+          <button 
+            onClick={() => downloadCSV('detailed')}
+            className="px-3 py-2 rounded-lg bg-blue-600 text-white text-sm flex items-center gap-2 hover:bg-blue-700"
+          >
+            <Download size={16}/> 테이블 CSV
+          </button>
         </div>
         <div className="overflow-x-auto">
           <table className="w-full text-sm">

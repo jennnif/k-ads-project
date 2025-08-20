@@ -1,36 +1,45 @@
 "use client";
 import { useEffect, useState } from "react";
-import { fetchParents, searchSegments, fetchChildrenByParentId, updateSegment, deleteSegment, createSegment, type Segment } from "@/lib/api";
+import { useParams } from "next/navigation";
+import { fetchChildrenByParentId, fetchSegmentById, updateSegment, deleteSegment, createSegment, type Segment } from "@/lib/api";
 import PageHeader from "@/components/ui/PageHeader";
 import { Card, CardBody } from "@/components/ui/Card";
-import { Search, Plus, Edit, Trash2 } from "lucide-react";
+import { ArrowLeft, Plus, Edit, Trash2 } from "lucide-react";
 import Link from "next/link";
-import SegmentDialog from "./SegmentDialog";
+import SegmentDialog from "../SegmentDialog";
 
-export default function AdminSegmentsPage() {
-  const [segments, setSegments] = useState<Segment[]>([]);
-  const [searchQuery, setSearchQuery] = useState("");
+export default function SegmentDetailPage() {
+  const params = useParams();
+  const segmentId = Number(params.id);
+  const [parentSegment, setParentSegment] = useState<Segment | null>(null);
+  const [childSegments, setChildSegments] = useState<Segment[]>([]);
   const [loading, setLoading] = useState(true);
   const [dialogOpen, setDialogOpen] = useState(false);
   const [editingSegment, setEditingSegment] = useState<Segment | null>(null);
 
-  const loadSegments = async () => {
+  const loadData = async () => {
     try {
       setLoading(true);
-      const data = searchQuery.trim() 
-        ? await searchSegments(searchQuery)
-        : await fetchParents();
-      setSegments(data);
+      
+      // 부모 세그먼트 정보 로드
+      const parent = await fetchSegmentById(segmentId);
+      setParentSegment(parent);
+      
+      // 자식 세그먼트들 로드
+      const children = await fetchChildrenByParentId(segmentId);
+      setChildSegments(children);
     } catch (error) {
-      console.error("Failed to load segments:", error);
+      console.error("Failed to load data:", error);
     } finally {
       setLoading(false);
     }
   };
 
   useEffect(() => {
-    loadSegments();
-  }, [searchQuery]);
+    if (segmentId) {
+      loadData();
+    }
+  }, [segmentId]);
 
   const handleEdit = (segment: Segment) => {
     setEditingSegment(segment);
@@ -38,11 +47,11 @@ export default function AdminSegmentsPage() {
   };
 
   const handleDelete = async (segment: Segment) => {
-    if (confirm(`"${segment.name}" 세그먼트를 삭제하시겠습니까?`)) {
+    if (confirm(`"${segment.name}" 중분류를 삭제하시겠습니까?`)) {
       try {
         await deleteSegment(segment.id);
-        alert("세그먼트가 삭제되었습니다.");
-        await loadSegments(); // 목록 새로고침
+        alert("중분류가 삭제되었습니다.");
+        await loadData(); // 데이터 새로고침
       } catch (error) {
         console.error("삭제 실패:", error);
         alert("삭제에 실패했습니다.");
@@ -60,45 +69,37 @@ export default function AdminSegmentsPage() {
         };
         
         await updateSegment(editingSegment.id, payload);
-        alert("세그먼트가 수정되었습니다.");
+        alert("중분류가 수정되었습니다.");
       } else {
-        // 생성
+        // 생성 - 중분류는 항상 현재 페이지의 대분류를 부모로 가짐
         const payload = {
           name: segmentData.name,
-          parentId: segmentData.type === 'child' ? segmentData.parentId : null
+          parentId: segmentId // 현재 페이지의 대분류 ID
         };
         
         await createSegment(payload);
-        alert("세그먼트가 생성되었습니다.");
+        alert("중분류가 생성되었습니다.");
       }
       
-      await loadSegments(); // 목록 새로고침
+      await loadData(); // 데이터 새로고침
     } catch (error) {
       console.error("저장 실패:", error);
       alert("저장에 실패했습니다.");
     }
   };
 
-  // 세그먼트별 통계 (실제 데이터 기반)
-  const segmentStats = segments.reduce((acc, segment) => {
-    const category = segment.name;
-    if (!acc[category]) {
-      acc[category] = { count: 0, color: "text-purple-600" };
-    }
-    acc[category].count++;
-    return acc;
-  }, {} as Record<string, { count: number; color: string }>);
-
   return (
     <div className="space-y-6">
       {/* 헤더 */}
       <PageHeader 
-        title="세그먼트 관리" 
+        title={`${parentSegment?.name || '대분류'} - 중분류 관리`}
         tabs={
           <div className="flex items-center justify-between rounded-full bg-white border shadow-sm px-3 py-2">
             <div className="flex gap-6 text-sm">
-              <Link href="/admin/segments" className="font-semibold text-black">세그먼트 관리</Link>
-              <Link href="/admin/kpi" className="text-black hover:text-gray-700">KPI 데이터 집계</Link>
+              <Link href="/admin/segments" className="text-black hover:text-gray-700">
+                <ArrowLeft size={16} className="inline mr-2" />
+                세그먼트 관리로 돌아가기
+              </Link>
             </div>
             <button 
               onClick={() => {
@@ -107,69 +108,37 @@ export default function AdminSegmentsPage() {
               }}
               className="px-3 py-2 rounded-lg bg-[rgb(var(--brand-500))] text-white text-sm flex items-center gap-2"
             >
-              <Plus size={16}/> 세그먼트 생성
+              <Plus size={16}/> 중분류 생성
             </button>
           </div>
         }
       />
 
-      {/* 검색 */}
-      <Card>
-        <CardBody>
-          <div className="relative max-w-md">
-            <input 
-              className="w-full border rounded-lg pl-9 pr-3 py-2 text-black placeholder-black" 
-              placeholder="세그먼트 검색" 
-              value={searchQuery} 
-              onChange={(e) => setSearchQuery(e.target.value)}
-            />
-            <Search size={16} className="absolute left-3 top-2.5 text-gray-400"/>
-          </div>
-        </CardBody>
-      </Card>
-
-      {/* 세그먼트 카테고리 그리드 (대분류 표시) */}
+      {/* 중분류 목록 */}
       <div className="grid md:grid-cols-3 gap-6">
-        {segments.map((segment) => (
-          <Card key={segment.id} className="hover:shadow-lg transition-shadow cursor-pointer">
+        {childSegments.map((segment) => (
+          <Card key={segment.id} className="hover:shadow-lg transition-shadow">
             <CardBody>
               <div className="text-center">
                 <h3 className="text-lg font-semibold mb-2 text-black">{segment.name}</h3>
-                <div className="text-sm text-purple-600 mb-4">
-                  중분류 {segmentStats[segment.name]?.count || 0}개
-                </div>
                 
                 {/* 수정/삭제 버튼 */}
-                <div className="flex justify-center gap-2">
+                <div className="flex justify-center gap-2 mt-4">
                   <button
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      handleEdit(segment);
-                    }}
+                    onClick={() => handleEdit(segment)}
                     className="p-2 hover:bg-gray-100 rounded text-gray-600 hover:text-gray-800"
                     title="수정"
                   >
                     <Edit size={16} />
                   </button>
                   <button
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      handleDelete(segment);
-                    }}
+                    onClick={() => handleDelete(segment)}
                     className="p-2 hover:bg-gray-100 rounded text-gray-600 hover:text-red-600"
                     title="삭제"
                   >
                     <Trash2 size={16} />
                   </button>
                 </div>
-                
-                {/* 중분류 페이지로 이동하는 링크 */}
-                <Link 
-                  href={`/admin/segments/${segment.id}`}
-                  className="mt-3 inline-block px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 text-sm"
-                >
-                  중분류 보기
-                </Link>
               </div>
             </CardBody>
           </Card>
@@ -182,6 +151,12 @@ export default function AdminSegmentsPage() {
         </div>
       )}
 
+      {!loading && childSegments.length === 0 && (
+        <div className="text-center py-8">
+          <div className="text-black">중분류가 없습니다.</div>
+        </div>
+      )}
+
       {/* 세그먼트 생성/수정 다이얼로그 */}
       <SegmentDialog
         open={dialogOpen}
@@ -191,7 +166,7 @@ export default function AdminSegmentsPage() {
         }}
         onSave={handleSave}
         editSegment={editingSegment}
-        parentSegments={segments}
+        parentSegments={[parentSegment!].filter(Boolean)}
       />
     </div>
   );

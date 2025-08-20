@@ -1,7 +1,6 @@
 "use client";
 import Link from "next/link";
 import { Card, CardBody } from "@/components/ui/Card";
-import { BarChart3, MessageSquare, TrendingUp } from "lucide-react";
 
 export default function AdvertiserHomePage() {
   const features = [
@@ -24,14 +23,14 @@ export default function AdvertiserHomePage() {
       desc: "캠페인 성과와 분석 데이터를 확인하세요", 
       icon: "📊",
       link: "/advertiser/kpi",
-      color: "bg-orange-50 border-orange-200 text-orange-600"
+      color: "bg-[rgb(var(--orange-500)/.08)] border-[rgb(var(--orange-500)/.2)] text-[rgb(var(--orange-500))]"
     }
   ];
 
   const values = [
-    { title: "실시간 분석", desc: "모든 광고 데이터와 성과를 정확히 제공", icon: "🏅" },
-    { title: "정확한 타겟팅", desc: "투명한 성과 공유와 실시간 리포트/알림 제공", icon: "📊" },
-    { title: "스마트 운영", desc: "쉽게 활용할 수 있는 UI/UX와 자동화 기능 제공", icon: "⚙️" },
+    { title: "실시간 분석", desc: "캠페인 성과를 실시간으로 모니터링하고 최적화하세요", icon: "🏅" },
+    { title: "정확한 타겟팅", desc: "세그먼트 기반으로 정확한 타겟 고객에게 메시지를 전달하세요", icon: "📊" },
+    { title: "스마트 운영", desc: "AI 기반 추천과 자동화로 효율적인 광고 운영을 경험하세요", icon: "⚙️" },
   ];
 
   return (
