@@ -48,10 +48,10 @@ export default function EditForm({ message }: { message: Message }) {
   };
 
   return (
-    <form onSubmit={onSubmit} className="grid gap-4 md:grid-cols-2">
+    <form id="edit-form" onSubmit={onSubmit} className="grid gap-4 md:grid-cols-2">
       <div>
         <label className="block text-sm mb-1">캠페인</label>
-        <select className="w-full border rounded-md p-2"
+        <select className="w-full border rounded-md p-2 bg-white text-black"
                 value={form.campaignId}
                 onChange={(e)=>setForm({...form, campaignId: e.target.value})}>
           {campaigns.map(c => <option key={c.id} value={c.id}>[{c.id}] {c.name}</option>)}
@@ -59,7 +59,7 @@ export default function EditForm({ message }: { message: Message }) {
       </div>
       <div>
         <label className="block text-sm mb-1">타입</label>
-        <select className="w-full border rounded-md p-2"
+        <select className="w-full border rounded-md p-2 bg-white text-black"
                 value={form.type}
                 onChange={(e)=>setForm({...form, type: e.target.value})}>
           <option>SMS</option><option>MMS</option><option>RCS</option>
@@ -75,19 +75,13 @@ export default function EditForm({ message }: { message: Message }) {
       </div>
       <div>
         <label className="block text-sm mb-1">상태</label>
-        <select className="w-full border rounded-md p-2"
+        <select className="w-full border rounded-md p-2 bg-white text-black"
                 value={form.status}
                 onChange={(e)=>setForm({...form, status: e.target.value})}>
           <option>DRAFT</option><option>READY</option><option>SENT</option><option>PAUSED</option>
         </select>
       </div>
       {err && <div className="md:col-span-2 text-red-500 text-sm">{err}</div>}
-      <div className="md:col-span-2">
-        <button type="submit" disabled={loading}
-                className="px-4 py-2 rounded-md bg-black text-white disabled:opacity-50">
-          {loading ? "저장 중..." : "수정 저장"}
-        </button>
-      </div>
     </form>
   );
 }

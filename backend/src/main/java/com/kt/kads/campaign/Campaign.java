@@ -31,6 +31,16 @@ public class Campaign {
     @Column(nullable=false)
     private Long segmentId;
 
+    @Enumerated(EnumType.STRING)
+    @Column(nullable=false, length=20)
+    private ChannelType channelType = ChannelType.SMS;
+
+    @Column(length=500)
+    private String conversionGoal;
+
+    @Column(nullable=false)
+    private boolean deleted = false;
+
     @Column(nullable=false)
     private OffsetDateTime createdAt = OffsetDateTime.now();
 
@@ -41,6 +51,8 @@ public class Campaign {
     public void onUpdate() { this.updatedAt = OffsetDateTime.now(); }
 
     public enum Status { DRAFT, ACTIVE, PAUSED, ENDED }
+
+    public enum ChannelType { SMS, MMS, RCS }
 
     // getters/setters
     public Long getId() { return id; }
@@ -63,6 +75,15 @@ public class Campaign {
 
     public Long getSegmentId() { return segmentId; }
     public void setSegmentId(Long segmentId) { this.segmentId = segmentId; }
+
+    public ChannelType getChannelType() { return channelType; }
+    public void setChannelType(ChannelType channelType) { this.channelType = channelType; }
+
+    public String getConversionGoal() { return conversionGoal; }
+    public void setConversionGoal(String conversionGoal) { this.conversionGoal = conversionGoal; }
+
+    public boolean isDeleted() { return deleted; }
+    public void setDeleted(boolean deleted) { this.deleted = deleted; }
 
     public OffsetDateTime getCreatedAt() { return createdAt; }
     public void setCreatedAt(OffsetDateTime createdAt) { this.createdAt = createdAt; }

@@ -65,17 +65,18 @@ export default function MessageCreateDialog({open,onOpenChange,onCreated}:{
   return (
     <div className="fixed inset-0 bg-black/40 z-50 flex items-center justify-center" onClick={()=>onOpenChange(false)}>
       <div className="w-[600px] bg-white rounded-2xl shadow-2xl p-6" onClick={(e)=>e.stopPropagation()}>
-        <div className="text-lg font-semibold mb-1">새 메시지 등록</div>
-        <p className="text-sm text-gray-500 mb-4">
-          새로운 광고 메시지를 등록합니다. 캠페인과 메시지 유형을 선택하고 내용을 작성하세요.
-        </p>
+        <div className="text-lg font-semibold mb-1 text-blue-600">새 메시지 등록</div>
+        <div className="text-sm text-gray-500 mb-4">
+          <div>새로운 광고 메시지를 등록합니다.</div>
+          <div>캠페인과 메시지 유형을 선택하고 내용을 작성하세요.</div>
+        </div>
 
         <div className="space-y-4">
           <div className="grid md:grid-cols-2 gap-4">
             <div>
-              <label className="block text-sm mb-1">캠페인 (필수)</label>
+              <label className="block text-sm mb-1 text-black">캠페인 (필수)</label>
               <select 
-                className="w-full border rounded-lg p-2" 
+                className="w-full border rounded-lg p-2 bg-white text-black" 
                 value={form.campaignId} 
                 onChange={(e)=>setForm({...form, campaignId:e.target.value})}
               >
@@ -87,9 +88,9 @@ export default function MessageCreateDialog({open,onOpenChange,onCreated}:{
             </div>
             
             <div>
-              <label className="block text-sm mb-1">메시지 유형 (필수)</label>
+              <label className="block text-sm mb-1 text-black">메시지 유형 (필수)</label>
               <select 
-                className="w-full border rounded-lg p-2" 
+                className="w-full border rounded-lg p-2 bg-white text-black" 
                 value={form.type} 
                 onChange={(e)=>setForm({...form, type:e.target.value, content: ""})} // 타입 변경시 내용 초기화
               >
@@ -101,9 +102,9 @@ export default function MessageCreateDialog({open,onOpenChange,onCreated}:{
           </div>
 
           <div>
-            <label className="block text-sm mb-1">메시지 제목 (필수)</label>
+            <label className="block text-sm mb-1 text-black">메시지 제목 (필수)</label>
             <input 
-              className="w-full border rounded-lg p-2" 
+              className="w-full border rounded-lg p-2 bg-white text-black" 
               placeholder="메시지 제목을 입력하세요" 
               value={form.title} 
               onChange={(e)=>setForm({...form, title:e.target.value})}
@@ -112,14 +113,14 @@ export default function MessageCreateDialog({open,onOpenChange,onCreated}:{
           </div>
 
           <div>
-            <label className="block text-sm mb-1">
+            <label className="block text-sm mb-1 text-black">
               메시지 내용 (필수) 
               <span className="text-xs text-gray-500 ml-2">
                 최소 5자, {form.type} 최대 {maxLength}자
               </span>
             </label>
             <textarea 
-              className="w-full border rounded-lg p-2 min-h-[120px] resize-none" 
+              className="w-full border rounded-lg p-2 min-h-[120px] resize-none bg-white text-black" 
               placeholder={`메시지 내용을 입력하세요 (${form.type} ${maxLength}자 제한)`}
               value={form.content} 
               onChange={(e)=>setForm({...form, content:e.target.value})}
@@ -135,9 +136,9 @@ export default function MessageCreateDialog({open,onOpenChange,onCreated}:{
             </div>
           </div>
 
-          <div className="rounded-lg border bg-blue-50 p-3">
-            <div className="text-sm font-medium text-blue-900">💡 메시지 작성 팁</div>
-            <ul className="text-xs text-blue-700 mt-1 space-y-1">
+          <div className="rounded-lg border bg-blue-50 p-4">
+            <div className="text-base font-medium text-blue-900 mb-2">💡 메시지 작성 팁</div>
+            <ul className="text-sm text-blue-700 space-y-2">
               <li>• SMS: 간결하고 명확한 메시지로 작성하세요</li>
               <li>• MMS: 이미지와 함께 활용할 수 있는 내용으로 작성하세요</li>
               <li>• RCS: 대화형 요소를 고려한 친근한 톤으로 작성하세요</li>
@@ -149,13 +150,13 @@ export default function MessageCreateDialog({open,onOpenChange,onCreated}:{
 
         <div className="flex justify-end gap-2 mt-6">
           <button 
-            className="px-4 py-2 rounded-lg border hover:bg-gray-50" 
+            className="px-4 py-2 rounded-lg border hover:bg-gray-50 text-black text-sm" 
             onClick={()=>onOpenChange(false)}
           >
             취소
           </button>
           <button
-            className="px-4 py-2 rounded-lg bg-[rgb(var(--success))] text-white disabled:opacity-50"
+            className="px-4 py-2 rounded-lg bg-[rgb(var(--success))] text-white text-sm flex items-center gap-2"
             disabled={loading || currentLength < 5 || currentLength > maxLength}
             onClick={handleSubmit}
           >

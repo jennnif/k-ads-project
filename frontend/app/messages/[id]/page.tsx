@@ -9,14 +9,23 @@ export default async function MessageDetailPage({ params }: { params: { id: stri
 
   return (
     <div className="p-6 space-y-6">
-      <div>
-        <h1 className="text-2xl font-bold">{m.title}</h1>
-        <div className="text-sm text-gray-500">ID: {m.id} · 타입: {m.type} · 상태: {m.status} · 캠페인: {m.campaignId}</div>
+      <div className="flex items-center justify-between">
+        <div>
+          <h1 className="text-2xl font-bold">{m.title}</h1>
+          <div className="text-sm text-gray-500">ID: {m.id} · 타입: {m.type} · 상태: {m.status} · 캠페인: {m.campaignId}</div>
+        </div>
+        <button 
+          type="submit" 
+          form="edit-form"
+          className="px-4 py-2 rounded-md bg-blue-600 text-white hover:bg-blue-700 transition-colors"
+        >
+          수정완료
+        </button>
       </div>
 
-      <section className="border rounded-md p-4 bg-gray-50">
+      <section className="border rounded-md p-4 bg-white">
         <div className="text-xs text-gray-500 mb-1">미리보기</div>
-        <div className="whitespace-pre-wrap">{m.content}</div>
+        <div className="whitespace-pre-wrap text-black">{m.content}</div>
       </section>
 
       <section className="border-t pt-6">
