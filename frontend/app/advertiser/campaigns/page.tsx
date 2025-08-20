@@ -1,6 +1,5 @@
 "use client";
 import PageHeader from "@/components/ui/PageHeader";
-import AppHero from "@/components/ui/AppHero";
 import StatusPill from "@/components/ui/StatusPill";
 import { Card, CardBody } from "@/components/ui/Card";
 import { listCampaigns, type Campaign } from "@/lib/api";
@@ -28,13 +27,12 @@ export default function AdvertiserCampaignsPage(){
 
   return (
     <div className="space-y-6">
-      <AppHero/>
       <PageHeader title="캠페인 관리" tabs={
         <div className="flex items-center justify-between rounded-full bg-white border shadow-sm px-3 py-2">
           <div className="flex gap-6 text-sm">
-            <Link href="/advertiser/campaigns" className="font-semibold">캠페인 관리</Link>
-            <Link href="/advertiser/messages" className="text-gray-500 hover:text-gray-900">메시지 관리</Link>
-            <Link href="/advertiser/kpi" className="text-gray-500 hover:text-gray-900">KPI 데이터 표출</Link>
+            <Link href="/advertiser/campaigns" className="font-semibold text-black">캠페인 관리</Link>
+            <Link href="/advertiser/messages" className="text-black hover:text-gray-700">메시지 관리</Link>
+            <Link href="/advertiser/kpi" className="text-black hover:text-gray-700">KPI 데이터 표출</Link>
           </div>
           <button onClick={()=>setOpen(true)} className="px-3 py-2 rounded-lg bg-[rgb(var(--brand-500))] text-white text-sm flex items-center gap-2">
             <Plus size={16}/> 캠페인 생성
@@ -49,8 +47,8 @@ export default function AdvertiserCampaignsPage(){
           <Card key={c.id} className="hover:shadow-xl transition-shadow cursor-pointer">
             <CardBody>
               <div className="flex justify-between">
-                <div className="text-lg font-semibold">{c.name}</div>
-                <div className="flex gap-2 text-gray-500">
+                <div className="text-lg font-semibold text-black">{c.name}</div>
+                <div className="flex gap-2 text-black">
                   <Link href={`/campaigns/${c.id}`} className="p-1 hover:bg-gray-100 rounded-md" title="수정">
                     <Pencil size={16}/>
                   </Link>
@@ -85,7 +83,7 @@ export default function AdvertiserCampaignsPage(){
           <div className="col-span-3">
             <Card>
               <CardBody>
-                <div className="text-center text-gray-500 py-12">
+                <div className="text-center text-black py-12">
                   캠페인이 없습니다. 상단의 '캠페인 생성'을 눌러 등록하세요.
                 </div>
               </CardBody>
@@ -106,14 +104,14 @@ function FilterBox({q,setQ,status,setStatus,segmentId,setSegmentId,onApply}:any)
         <div className="grid md:grid-cols-4 gap-3">
           <div className="relative">
             <input 
-              className="w-full border rounded-lg pl-9 pr-3 py-2" 
+              className="w-full border rounded-lg pl-9 pr-3 py-2 text-black placeholder-black" 
               placeholder="광고명으로 검색" 
               value={q} 
               onChange={(e)=>setQ(e.target.value)}
             />
             <Search size={16} className="absolute left-3 top-2.5 text-gray-400"/>
           </div>
-          <select className="border rounded-lg p-2" value={status} onChange={(e)=>setStatus(e.target.value)}>
+          <select className="border rounded-lg p-2 text-black" value={status} onChange={(e)=>setStatus(e.target.value)}>
             <option value="">전체 상태</option>
             <option value="ACTIVE">진행중</option>
             <option value="DRAFT">초안</option>
@@ -121,12 +119,12 @@ function FilterBox({q,setQ,status,setStatus,segmentId,setSegmentId,onApply}:any)
             <option value="ENDED">종료</option>
           </select>
           <input 
-            className="border rounded-lg p-2" 
+            className="border rounded-lg p-2 text-black placeholder-black" 
             placeholder="세그먼트 ID" 
             value={segmentId} 
             onChange={(e)=>setSegmentId(e.target.value)}
           />
-          <button onClick={onApply} className="rounded-lg border px-3 py-2 hover:bg-gray-50">
+          <button onClick={onApply} className="rounded-lg border px-3 py-2 hover:bg-gray-50 text-black">
             적용
           </button>
         </div>

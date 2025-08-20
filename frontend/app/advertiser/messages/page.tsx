@@ -49,13 +49,13 @@ export default function AdvertiserMessagesPage(){
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-4">
           <select 
-            className="border rounded-lg p-2 min-w-[200px]"
+            className="border rounded-lg p-2 min-w-[200px] text-white bg-gray-800"
             value={selectedCampaignId}
             onChange={(e)=>setSelectedCampaignId(e.target.value)}
           >
             <option value="">전체 캠페인</option>
             {campaigns.map(c=>(
-              <option key={c.id} value={c.id}>[{c.id}] {c.name}</option>
+              <option key={c.id} value={c.id} className="text-black bg-white">[{c.id}] {c.name}</option>
             ))}
           </select>
         </div>
@@ -79,7 +79,7 @@ export default function AdvertiserMessagesPage(){
                 <StatusPill v={m.status}/>
               </div>
 
-              <h3 className="font-semibold mb-2">{m.title}</h3>
+              <h3 className="font-semibold mb-2 text-black">{m.title}</h3>
               
               <div className="bg-gray-50 rounded-lg p-3 mb-3 relative">
                 <div className="absolute -left-2 top-3 w-3 h-3 bg-gray-50 rotate-45 border-l border-b"></div>
@@ -109,7 +109,7 @@ export default function AdvertiserMessagesPage(){
           <div className="col-span-2">
             <Card>
               <CardBody>
-                <div className="text-center text-gray-500 py-12">
+                <div className="text-center text-black py-12">
                   <MessageSquare size={48} className="mx-auto mb-4 text-gray-300"/>
                   메시지가 없습니다. '메시지 등록'을 눌러 새 메시지를 작성하세요.
                 </div>

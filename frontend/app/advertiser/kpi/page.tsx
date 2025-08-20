@@ -115,9 +115,9 @@ export default function AdvertiserKpiPage(){
               </div>
               <span className="text-xs text-green-600 font-medium">{kpi.change}</span>
             </div>
-            <div className="text-2xl font-bold mb-1">{kpi.value}</div>
-            <div className="text-sm text-gray-600">{kpi.title}</div>
-            <div className="text-xs text-gray-500 mt-2">
+            <div className="text-2xl font-bold mb-1 text-black">{kpi.value}</div>
+            <div className="text-sm text-black">{kpi.title}</div>
+            <div className="text-xs text-black mt-2">
               {index === 0 && "CTR 25.4%"}
               {index === 1 && "CVR 25.7%"}  
               {index === 2 && "CTR 25.4% | CVR 25.7%"}
@@ -128,12 +128,12 @@ export default function AdvertiserKpiPage(){
       </div>
 
       {/* 필터 */}
-      <Card>
+      <Card className="rounded-xl">
         <CardBody>
           <div className="flex items-center gap-4">
-            <label className="text-sm font-medium">캠페인 필터:</label>
+            <label className="text-sm font-medium text-black">캠페인 필터:</label>
             <select 
-              className="border rounded-lg p-2 min-w-[250px]"
+              className="border rounded-lg p-2 min-w-[250px] text-black"
               value={selectedCampaignId}
               onChange={(e)=>setSelectedCampaignId(e.target.value)}
             >
@@ -142,7 +142,7 @@ export default function AdvertiserKpiPage(){
                 <option key={c.id} value={c.id}>[{c.id}] {c.name}</option>
               ))}
             </select>
-            <button onClick={loadData} className="px-4 py-2 rounded-lg border hover:bg-gray-50">
+            <button onClick={loadData} className="px-4 py-2 rounded-lg border hover:bg-gray-50 text-black">
               적용
             </button>
           </div>
@@ -150,34 +150,34 @@ export default function AdvertiserKpiPage(){
       </Card>
 
       {/* 캠페인별 성과 테이블 */}
-      <Card>
-        <div className="px-5 py-3 border-b flex items-center gap-2">
-          <BarChart3 size={20} className="text-gray-600"/>
-          <h3 className="font-semibold">캠페인별 성과 데이터</h3>
+      <Card className="rounded-xl overflow-hidden">
+        <div className="px-5 py-3 border-b flex items-center gap-2 bg-white">
+          <BarChart3 size={20} className="text-black"/>
+          <h3 className="font-semibold text-black">캠페인별 성과 데이터</h3>
         </div>
         <div className="overflow-x-auto">
           <table className="w-full text-sm">
             <thead className="bg-gray-50">
               <tr>
-                <th className="px-4 py-3 text-left font-medium text-gray-700">캠페인명</th>
-                <th className="px-4 py-3 text-left font-medium text-gray-700">세그먼트</th>
-                <th className="px-4 py-3 text-left font-medium text-gray-700">채널</th>
-                <th className="px-4 py-3 text-left font-medium text-gray-700">예산</th>
-                <th className="px-4 py-3 text-left font-medium text-gray-700">기간</th>
-                <th className="px-4 py-3 text-right font-medium text-gray-700">발송 성공</th>
-                <th className="px-4 py-3 text-right font-medium text-gray-700">클릭 수</th>
-                <th className="px-4 py-3 text-right font-medium text-gray-700">전환 수</th>
-                <th className="px-4 py-3 text-right font-medium text-gray-700">비용</th>
-                <th className="px-4 py-3 text-right font-medium text-gray-700">CTR</th>
-                <th className="px-4 py-3 text-right font-medium text-gray-700">CVR</th>
-                <th className="px-4 py-3 text-right font-medium text-gray-700">CPM</th>
+                <th className="px-4 py-3 text-left font-medium text-black">캠페인명</th>
+                <th className="px-4 py-3 text-left font-medium text-black">세그먼트</th>
+                <th className="px-4 py-3 text-left font-medium text-black">채널</th>
+                <th className="px-4 py-3 text-left font-medium text-black">예산</th>
+                <th className="px-4 py-3 text-left font-medium text-black">기간</th>
+                <th className="px-4 py-3 text-right font-medium text-black">발송 성공</th>
+                <th className="px-4 py-3 text-right font-medium text-black">클릭 수</th>
+                <th className="px-4 py-3 text-right font-medium text-black">전환 수</th>
+                <th className="px-4 py-3 text-right font-medium text-black">비용</th>
+                <th className="px-4 py-3 text-right font-medium text-black">CTR</th>
+                <th className="px-4 py-3 text-right font-medium text-black">CVR</th>
+                <th className="px-4 py-3 text-right font-medium text-black">CPM</th>
               </tr>
             </thead>
             <tbody>
               {displayCampaignPerformance.map((campaign, index) => (
                 <tr key={campaign.id} className={index % 2 === 0 ? "bg-white" : "bg-gray-50"}>
-                  <td className="px-4 py-3 font-medium">{campaign.name}</td>
-                  <td className="px-4 py-3">{campaign.segment}</td>
+                  <td className="px-4 py-3 font-medium text-black">{campaign.name}</td>
+                  <td className="px-4 py-3 text-black">{campaign.segment}</td>
                   <td className="px-4 py-3">
                     <span className={`px-2 py-1 rounded-full text-xs font-medium ${
                       campaign.channel === 'SMS' ? 'bg-blue-100 text-blue-700' :
@@ -187,15 +187,15 @@ export default function AdvertiserKpiPage(){
                       {campaign.channel}
                     </span>
                   </td>
-                  <td className="px-4 py-3">{campaign.budget}</td>
-                  <td className="px-4 py-3 text-xs">{campaign.period}</td>
-                  <td className="px-4 py-3 text-right font-medium">{campaign.sent}</td>
-                  <td className="px-4 py-3 text-right font-medium">{campaign.clicks}</td>
-                  <td className="px-4 py-3 text-right font-medium">{campaign.conversions}</td>
-                  <td className="px-4 py-3 text-right font-medium">{campaign.cost}</td>
+                  <td className="px-4 py-3 text-black">{campaign.budget}</td>
+                  <td className="px-4 py-3 text-xs text-black">{campaign.period}</td>
+                  <td className="px-4 py-3 text-right font-medium text-black">{campaign.sent}</td>
+                  <td className="px-4 py-3 text-right font-medium text-black">{campaign.clicks}</td>
+                  <td className="px-4 py-3 text-right font-medium text-black">{campaign.conversions}</td>
+                  <td className="px-4 py-3 text-right font-medium text-black">{campaign.cost}</td>
                   <td className="px-4 py-3 text-right text-green-600 font-medium">{campaign.ctr}</td>
                   <td className="px-4 py-3 text-right text-blue-600 font-medium">{campaign.cvr}</td>
-                  <td className="px-4 py-3 text-right text-gray-600">{campaign.cpm}</td>
+                  <td className="px-4 py-3 text-right text-black">{campaign.cpm}</td>
                 </tr>
               ))}
             </tbody>

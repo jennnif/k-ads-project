@@ -28,8 +28,8 @@ export default function AdminHomePage() {
   return (
     <div className="p-6 space-y-8">
       <div className="text-center space-y-2">
-        <h1 className="text-4xl font-bold text-ink-900">관리자 모드</h1>
-        <p className="text-lg text-ink-600 max-w-2xl mx-auto">
+        <h1 className="text-4xl font-bold text-white">관리자 모드</h1>
+        <p className="text-lg text-white max-w-2xl mx-auto">
           K-Ads 플랫폼의 세그먼트와 KPI 데이터를 관리하세요.
         </p>
       </div>
@@ -50,13 +50,13 @@ export default function AdminHomePage() {
       </div>
 
       <div className="border-t pt-8 mt-8 space-y-4">
-        <h2 className="text-2xl font-bold text-center">K-Ads의 핵심 가치</h2>
-        <div className="grid md:grid-cols-3 gap-6">
+        <h2 className="text-2xl font-bold text-center text-white">K-Ads의 핵심 가치</h2>
+        <div className="grid md:grid-cols-3 gap-6 max-w-7xl mx-auto">
           {values.map((value, index) => (
-            <Card key={index} className="p-6 text-center">
+            <Card key={index} className="p-8 text-center min-w-0 w-full">
               <div className="text-4xl mb-3">{value.icon}</div>
-              <h3 className="text-lg font-semibold mb-1">{value.title}</h3>
-              <p className="text-sm text-ink-600">{value.desc}</p>
+              <h3 className="text-lg font-semibold mb-1 text-black">{value.title}</h3>
+              <p className="text-xs text-black leading-tight whitespace-nowrap">{value.desc}</p>
             </Card>
           ))}
         </div>
