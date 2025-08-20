@@ -21,9 +21,14 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <div className="mx-auto max-w-6xl px-5 py-3 flex items-center justify-between">
             <div className="flex items-center gap-2">
               <div className="h-7 w-7 rounded-md bg-brand-500" />
-              <h1 className="text-base font-semibold tracking-tight">K-Ads Console</h1>
+              <h1 className="text-base font-semibold tracking-tight">K-Ads</h1>
+              <div className="text-sm text-ink-500">맞춤형 문자 광고 서비스</div>
             </div>
-            <nav className="text-sm text-ink-600">Segments</nav>
+            <nav className="flex items-center gap-4 text-sm">
+              <a href="/advertiser" className="text-ink-600 hover:text-ink-900">🎭 광고주 모드 전환</a>
+              <a href="/admin" className="text-ink-600 hover:text-ink-900">🛡️ 관리자 모드 전환</a>
+              <div className="text-ink-600">Segments</div>
+            </nav>
           </div>
         </header>
         <main className="mx-auto max-w-6xl px-5 py-8">{children}</main>
