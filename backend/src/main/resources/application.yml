@@ -10,7 +10,7 @@ spring:
 
   jpa:
     hibernate:
-      ddl-auto: validate                       # 이미 테이블이 있으면 validate 권장 (스키마 보호)
+      ddl-auto: update                       # 이미 테이블이 있으면 validate 권장 (스키마 보호)
       # 필요 시 update로 바꿔도 됨
     open-in-view: false
     properties:

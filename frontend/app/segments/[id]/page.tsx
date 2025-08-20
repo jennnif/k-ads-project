@@ -1,5 +1,8 @@
 import Link from "next/link";
 import { fetchSegmentById, fetchChildrenByParentId, type Segment } from "@/lib/api";
+import AddChildForm from "./AddChildForm";
+import EditSegmentForm from "./EditSegmentForm";
+import DeleteSegmentButton from "./DeleteSegmentButton";
 
 type Props = { params: { id: string } };
 
@@ -84,6 +87,9 @@ export default async function SegmentDetailPage({ params }: Props) {
             ))}
           </ul>
         )}
+        
+        <h3 className="text-md font-semibold mt-6">자식 세그먼트 추가</h3>
+        <AddChildForm parentId={segment.id} />
       </section>
 
       {/* 형제 세그먼트 */}
@@ -106,6 +112,19 @@ export default async function SegmentDetailPage({ params }: Props) {
           )}
         </section>
       )}
+
+      <section className="border-t pt-6">
+        <h2 className="text-lg font-semibold mb-3">세그먼트 수정</h2>
+        <EditSegmentForm segment={segment} />
+      </section>
+
+      <section className="border-t pt-6">
+        <h2 className="text-lg font-semibold mb-3">세그먼트 삭제</h2>
+        <DeleteSegmentButton id={segment.id} />
+        <p className="text-xs text-gray-500 mt-2">
+          * 자식 세그먼트가 있는 경우 삭제할 수 없습니다.
+        </p>
+      </section>
     </div>
   );
 }
