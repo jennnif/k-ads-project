@@ -23,7 +23,7 @@ export default function AdminKpiPage() {
       setKpiData(kpiDashboard);
       setCampaignPerformance(performance);
     } catch (error) {
-      console.error("Failed to load KPI data:", error);
+      // 에러 처리
     } finally {
       setLoading(false);
     }

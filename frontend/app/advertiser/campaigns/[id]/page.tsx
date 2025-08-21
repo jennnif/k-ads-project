@@ -14,19 +14,21 @@ export default function CampaignDetailPage() {
   useEffect(() => {
     const loadCampaign = async () => {
       try {
-        if (params.id) {
-          const campaignData = await getCampaign(Number(params.id));
-          setCampaign(campaignData);
-        }
+        // ✅ 수정: params.id 사용
+        const data = await getCampaign(Number(params.id));
+        setCampaign(data);
       } catch (error) {
-        console.error("캠페인을 불러오는데 실패했습니다:", error);
+        alert("캠페인을 불러오는데 실패했습니다.");
       } finally {
+        // ✅ finally 블록에서 loading 상태를 false로 설정
         setLoading(false);
       }
     };
-
-    loadCampaign();
-  }, [params.id]);
+    
+    if (params.id) { // ✅ params.id가 있을 때만 실행
+      loadCampaign();
+    }
+  }, [params.id]); // ✅ 수정: params.id 사용
 
   if (loading) {
     return (

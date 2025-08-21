@@ -13,10 +13,12 @@ export default function AdvertiserKpiPage(){
   const [kpiData, setKpiData] = useState<KpiDashboard | null>(null);
   const [campaignPerformance, setCampaignPerformance] = useState<CampaignPerformance[]>([]);
   const [activeTab, setActiveTab] = useState("kpi");
+  const [loading, setLoading] = useState(true);
   const router = useRouter();
 
   const loadData = async () => {
     try {
+      setLoading(true);
       const [campaignsData, kpiDashboard, performance] = await Promise.all([
         listCampaigns(),
         getKpiDashboard(selectedCampaignId ? Number(selectedCampaignId) : undefined),
@@ -26,7 +28,9 @@ export default function AdvertiserKpiPage(){
       setKpiData(kpiDashboard);
       setCampaignPerformance(performance);
     } catch (error) {
-      console.error("Failed to load KPI data:", error);
+      // 에러 처리
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -92,7 +96,6 @@ export default function AdvertiserKpiPage(){
       
       alert(`${type === 'summary' ? '요약' : '상세'} CSV 파일이 다운로드되었습니다.`);
     } catch (error) {
-      console.error('CSV 다운로드 실패:', error);
       alert('CSV 다운로드에 실패했습니다.');
     }
   };

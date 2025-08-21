@@ -20,16 +20,14 @@ export default function SegmentDetailPage() {
   const loadData = async () => {
     try {
       setLoading(true);
-      
-      // 부모 세그먼트 정보 로드
-      const parent = await fetchSegmentById(segmentId);
-      setParentSegment(parent);
-      
-      // 자식 세그먼트들 로드
-      const children = await fetchChildrenByParentId(segmentId);
-      setChildSegments(children);
+      const [segmentData, childrenData] = await Promise.all([
+        fetchSegmentById(segmentId),
+        fetchChildrenByParentId(segmentId)
+      ]);
+      setParentSegment(segmentData);
+      setChildSegments(childrenData);
     } catch (error) {
-      console.error("Failed to load data:", error);
+      // 에러 처리
     } finally {
       setLoading(false);
     }
@@ -47,13 +45,12 @@ export default function SegmentDetailPage() {
   };
 
   const handleDelete = async (segment: Segment) => {
-    if (confirm(`"${segment.name}" 중분류를 삭제하시겠습니까?`)) {
+    if (confirm(`"${segment.name}" 세그먼트를 삭제하시겠습니까?`)) {
       try {
         await deleteSegment(segment.id);
-        alert("중분류가 삭제되었습니다.");
-        await loadData(); // 데이터 새로고침
+        alert("세그먼트가 삭제되었습니다.");
+        await loadData(); // 목록 새로고침
       } catch (error) {
-        console.error("삭제 실패:", error);
         alert("삭제에 실패했습니다.");
       }
     }
@@ -83,7 +80,6 @@ export default function SegmentDetailPage() {
       
       await loadData(); // 데이터 새로고침
     } catch (error) {
-      console.error("저장 실패:", error);
       alert("저장에 실패했습니다.");
     }
   };

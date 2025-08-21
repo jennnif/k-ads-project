@@ -25,7 +25,7 @@ export default function AdminSegmentsPage() {
         : await fetchParents();
       setSegments(data);
     } catch (error) {
-      console.error("Failed to load segments:", error);
+      // 에러 처리
     } finally {
       setLoading(false);
     }
@@ -73,7 +73,6 @@ export default function AdminSegmentsPage() {
         alert("세그먼트가 삭제되었습니다.");
         await loadSegments(); // 목록 새로고침
       } catch (error) {
-        console.error("삭제 실패:", error);
         alert("삭제에 실패했습니다.");
       }
     }
@@ -103,7 +102,6 @@ export default function AdminSegmentsPage() {
       
       await loadSegments(); // 목록 새로고침
     } catch (error) {
-      console.error("저장 실패:", error);
       alert("저장에 실패했습니다.");
     }
   };

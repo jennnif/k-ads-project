@@ -97,14 +97,9 @@ export default function AdvertiserCampaignsPage(){
                   onClick={(e) => {
                     e.preventDefault();
                     e.stopPropagation();
-                    console.log('세부정보보기 클릭됨:', c.id);
                     router.push(`/advertiser/campaigns/${c.id}`);
                   }}
-                  onMouseDown={(e) => {
-                    e.preventDefault();
-                    e.stopPropagation();
-                  }}
-                  className="text-[rgb(var(--brand-600))] hover:underline text-sm cursor-pointer bg-blue-100 hover:bg-blue-200 px-3 py-1 rounded border border-blue-300 transition-colors relative z-10"
+                  className="px-4 py-2 rounded-md bg-blue-600 text-white hover:bg-blue-700 transition-colors text-sm"
                   style={{ position: 'relative', zIndex: 10 }}
                 >
                   세부 정보 보기
