@@ -18,15 +18,70 @@ export default function Home() {
 
           {/* Jua 폰트 + 그라디언트 텍스트 */}
           <h1
-            className={`${jua.className} text-5xl md:text-6xl font-extrabold mb-4 tracking-tight`}
+            className="text-4xl md:text-5xl font-extrabold mb-4 tracking-tight"
           >
-            <span className="text-blue-400">K-ADS</span>
-            <span className="text-white">를 이용해보세요!</span>
+            <span className="text-blue-600">K-ADS</span>
+            <span className="text-white">와 함께 성공적인 마케팅을 경험해보세요</span>
           </h1>
 
           <p className="text-lg md:text-xl text-gray-300 max-w-3xl mx-auto leading-relaxed">
             맞춤형 문자광고 서비스로 고객과의 소통을 더욱 효과적으로 만들 수 있습니다
           </p>
+        </div>
+
+        {/* Stats Section */}
+        <div className="mb-16 grid md:grid-cols-4 gap-8 text-center">
+          <div className="outer">
+            <div className="dot"></div>
+            <div className="card">
+              <div className="ray"></div>
+              <div className="line topl"></div>
+              <div className="line bottoml"></div>
+              <div className="line leftl"></div>
+              <div className="line rightl"></div>
+              <div className="text">99.9%</div>
+              <div className="text-sm mt-2">전송 성공률</div>
+            </div>
+          </div>
+          
+          <div className="outer">
+            <div className="dot"></div>
+            <div className="card">
+              <div className="ray"></div>
+              <div className="line topl"></div>
+              <div className="line bottoml"></div>
+              <div className="line leftl"></div>
+              <div className="line rightl"></div>
+              <div className="text">24/7</div>
+              <div className="text-sm mt-2">실시간 모니터링</div>
+            </div>
+          </div>
+          
+          <div className="outer">
+            <div className="dot"></div>
+            <div className="card">
+              <div className="ray"></div>
+              <div className="line topl"></div>
+              <div className="line bottoml"></div>
+              <div className="line leftl"></div>
+              <div className="line rightl"></div>
+              <div className="text">1000+</div>
+              <div className="text-sm mt-2">활성 캠페인</div>
+            </div>
+          </div>
+          
+          <div className="outer">
+            <div className="dot"></div>
+            <div className="card">
+              <div className="ray"></div>
+              <div className="line topl"></div>
+              <div className="line bottoml"></div>
+              <div className="line leftl"></div>
+              <div className="line rightl"></div>
+              <div className="text">50만+</div>
+              <div className="text-sm mt-2">월간 메시지</div>
+            </div>
+          </div>
         </div>
 
         {/* Features Grid */}
@@ -58,36 +113,6 @@ export default function Home() {
             <h3 className="text-xl font-semibold text-gray-900 mb-4">효율적인 관리</h3>
             <p className="text-gray-600 leading-relaxed">
               직관적인 인터페이스로 캠페인과 메시지를 쉽게 관리할 수 있습니다
-            </p>
-          </div>
-        </div>
-
-        {/* Stats Section */}
-        <div className="mb-16 grid md:grid-cols-4 gap-8 text-center">
-          <div>
-            <div className="text-3xl font-bold text-blue-600 mb-2">99.9%</div>
-            <div className="text-gray-300">전송 성공률</div>
-          </div>
-          <div>
-            <div className="text-3xl font-bold text-green-600 mb-2">24/7</div>
-            <div className="text-gray-300">실시간 모니터링</div>
-          </div>
-          <div>
-            <div className="text-3xl font-bold text-purple-600 mb-2">1000+</div>
-            <div className="text-gray-300">활성 캠페인</div>
-          </div>
-          <div>
-            <div className="text-3xl font-bold text-blue-600 mb-2">50만+</div>
-            <div className="text-gray-300">월간 메시지</div>
-          </div>
-        </div>
-
-        {/* CTA Section */}
-        <div className="text-center">
-          <div className="bg-gradient-to-r from-blue-600 to-purple-600 rounded-2xl p-12 text-white">
-            <h2 className="text-3xl font-bold mb-4">지금 시작해보세요</h2>
-            <p className="text-xl opacity-90">
-              K-ADS와 함께 성공적인 디지털 마케팅을 경험해보세요
             </p>
           </div>
         </div>
