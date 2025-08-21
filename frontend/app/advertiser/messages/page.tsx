@@ -7,12 +7,15 @@ import { useEffect, useState } from "react";
 import { Plus, MessageSquare } from "lucide-react";
 import Link from "next/link";
 import MessageCreateDialog from "./MessageCreateDialog";
+import { useRouter } from "next/navigation";
 
 export default function AdvertiserMessagesPage(){
   const [items,setItems]=useState<Message[]>([]);
   const [campaigns,setCampaigns]=useState<Campaign[]>([]);
   const [selectedCampaignId,setSelectedCampaignId]=useState("");
   const [open,setOpen]=useState(false);
+  const [activeTab, setActiveTab] = useState("messages");
+  const router = useRouter();
 
   const load=async()=>{
     const p:any={}; 
@@ -25,6 +28,15 @@ export default function AdvertiserMessagesPage(){
     listCampaigns().then(setCampaigns);
   },[selectedCampaignId]);
 
+  const handleTabClick = (tab: string) => {
+    setActiveTab(tab);
+    if (tab === "campaigns") {
+      router.push("/advertiser/campaigns");
+    } else if (tab === "kpi") {
+      router.push("/advertiser/kpi");
+    }
+  };
+
   const getChannelColor = (type: string) => {
     switch(type) {
       case 'SMS': return 'bg-blue-100 text-blue-700';
@@ -36,15 +48,32 @@ export default function AdvertiserMessagesPage(){
 
   return (
     <div className="space-y-6">
-      <PageHeader title="메시지 관리" tabs={
-        <div className="flex items-center justify-between rounded-full bg-white border shadow-sm px-3 py-2">
-          <div className="flex gap-6 text-sm">
-            <Link href="/advertiser/campaigns" className="text-black hover:text-gray-700">캠페인 관리</Link>
-            <Link href="/advertiser/messages" className="font-semibold text-black">메시지 관리</Link>
-            <Link href="/advertiser/kpi" className="text-black hover:text-gray-700">KPI 데이터 표출</Link>
-          </div>
-        </div>
-      }/>
+      {/* Header with Title */}
+      <div className="flex justify-between items-center">
+        <h1 className="text-3xl font-bold text-white">메시지 관리</h1>
+      </div>
+
+      {/* Tab Menu */}
+      <div className="campaign-tab-container">
+        <button 
+          className={`campaign-tab ${activeTab === "campaigns" ? "active" : ""}`}
+          onClick={() => handleTabClick("campaigns")}
+        >
+          캠페인 관리
+        </button>
+        <button 
+          className={`campaign-tab ${activeTab === "messages" ? "active" : ""}`}
+          onClick={() => handleTabClick("messages")}
+        >
+          메시지 관리
+        </button>
+        <button 
+          className={`campaign-tab ${activeTab === "kpi" ? "active" : ""}`}
+          onClick={() => handleTabClick("kpi")}
+        >
+          KPI 데이터 표출
+        </button>
+      </div>
       
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-4">
@@ -96,7 +125,7 @@ export default function AdvertiserMessagesPage(){
               <div className="mt-3 text-right">
                 <Link 
                   className="text-[rgb(var(--brand-600))] hover:underline text-sm" 
-                  href={`/messages/${m.id}`}
+                  href={`/advertiser/messages/${m.id}`}
                 >
                   세부 정보 보기
                 </Link>

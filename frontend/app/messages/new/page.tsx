@@ -35,7 +35,7 @@ export default function NewMessagePage() {
         content: form.content.trim(),
         status: form.status as Message["status"],
       } as any);
-      router.push(`/messages/${saved.id}`);
+      router.push(`/advertiser/messages/${saved.id}`);
     } catch (e: any) {
       setErr(e?.message || "생성 실패");
     } finally {

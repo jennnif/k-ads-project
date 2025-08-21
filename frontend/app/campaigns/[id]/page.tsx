@@ -3,9 +3,10 @@ import EditForm from "./EditForm";
 import DeleteButton from "./DeleteButton";
 import MessagesOfCampaign from "./MessagesOfCampaign";
 
-export default async function CampaignDetailPage({ params }: { params: { id: string } }) {
-  const id = Number(params.id);
-  const c = await getCampaign(id);
+export default async function CampaignDetailPage({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
+  const campaignId = Number(id);
+  const c = await getCampaign(campaignId);
   if (!c) return <div className="p-6">캠페인을 찾을 수 없습니다.</div>;
 
   return (

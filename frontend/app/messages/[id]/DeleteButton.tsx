@@ -15,7 +15,7 @@ export default function DeleteButton({ id }: { id: number }) {
     try {
       setLoading(true);
       await deleteMessage(id);
-      router.push("/messages");
+      router.push("/advertiser/messages");
     } catch (e: any) {
       setErr(e?.message || "삭제 실패");
     } finally {

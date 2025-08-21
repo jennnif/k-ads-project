@@ -42,6 +42,7 @@ export default function EditForm({ campaign }: { campaign: Campaign }) {
         endDate: form.endDate,
         segmentId: Number(form.segmentId),
       } as any);
+      alert("수정이 완료되었습니다!");
       router.refresh();
     } catch (e: any) {
       setErr(e?.message || "수정 실패");

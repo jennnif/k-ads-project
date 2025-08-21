@@ -13,7 +13,7 @@ export default function MessagesOfCampaign({ campaignId }: { campaignId: number 
   return (
     <div className="space-y-2">
       <div className="flex justify-end">
-        <Link href="/messages/new" className="border rounded-md px-3 py-2 text-white">새 메시지</Link>
+        <Link href="/advertiser/messages/new" className="border rounded-md px-3 py-2 text-white">새 메시지</Link>
       </div>
       <div className="border rounded-md overflow-hidden">
         <table className="w-full text-sm">
@@ -27,7 +27,7 @@ export default function MessagesOfCampaign({ campaignId }: { campaignId: number 
                 <td className="p-2 text-white">{m.title}</td>
                 <td className="p-2 text-white">{m.type}</td>
                 <td className="p-2 text-white">{m.status}</td>
-                <td className="p-2"><Link className="text-blue-600 hover:underline" href={`/messages/${m.id}`}>보기</Link></td>
+                <td className="p-2"><Link className="text-blue-600 hover:underline" href={`/advertiser/messages/${m.id}`}>보기</Link></td>
               </tr>
             ))}
             {items.length === 0 && (

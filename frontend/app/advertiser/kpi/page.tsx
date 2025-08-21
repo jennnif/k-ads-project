@@ -5,12 +5,15 @@ import { listCampaigns, getKpiDashboard, getCampaignsPerformance, type Campaign,
 import { useEffect, useState } from "react";
 import { BarChart3, TrendingUp, MousePointer, Target, DollarSign, Download } from "lucide-react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 export default function AdvertiserKpiPage(){
   const [campaigns,setCampaigns]=useState<Campaign[]>([]);
   const [selectedCampaignId,setSelectedCampaignId]=useState("");
   const [kpiData, setKpiData] = useState<KpiDashboard | null>(null);
   const [campaignPerformance, setCampaignPerformance] = useState<CampaignPerformance[]>([]);
+  const [activeTab, setActiveTab] = useState("kpi");
+  const router = useRouter();
 
   const loadData = async () => {
     try {
@@ -30,6 +33,15 @@ export default function AdvertiserKpiPage(){
   useEffect(()=>{ 
     loadData();
   },[selectedCampaignId]);
+
+  const handleTabClick = (tab: string) => {
+    setActiveTab(tab);
+    if (tab === "campaigns") {
+      router.push("/advertiser/campaigns");
+    } else if (tab === "messages") {
+      router.push("/advertiser/messages");
+    }
+  };
 
   // CSV 다운로드 함수
   const downloadCSV = (type: 'summary' | 'detailed') => {
@@ -146,30 +158,32 @@ export default function AdvertiserKpiPage(){
 
   return (
     <div className="space-y-6">
-      <PageHeader title="KPI 데이터 표출" tabs={
-        <div className="flex items-center justify-between rounded-full bg-white border shadow-sm px-3 py-2">
-          <div className="flex gap-6 text-sm">
-            <Link href="/advertiser/campaigns" className="text-gray-500 hover:text-gray-900">캠페인 관리</Link>
-            <Link href="/advertiser/messages" className="text-gray-500 hover:text-gray-900">메시지 관리</Link>
-            <Link href="/advertiser/kpi" className="font-semibold">KPI 데이터 표출</Link>
-          </div>
-          {/* CSV 다운로드 버튼들 */}
-          <div className="flex gap-2">
-            <button 
-              onClick={() => downloadCSV('summary')}
-              className="px-3 py-2 rounded-lg bg-green-600 text-white text-sm flex items-center gap-2 hover:bg-green-700"
-            >
-              <Download size={16}/> 요약 CSV
-            </button>
-            <button 
-              onClick={() => downloadCSV('detailed')}
-              className="px-3 py-2 rounded-lg bg-blue-600 text-white text-sm flex items-center gap-2 hover:bg-blue-700"
-            >
-              <Download size={16}/> 상세 CSV
-            </button>
-          </div>
-        </div>
-      }/>
+      {/* Header with Title */}
+      <div className="flex justify-between items-center">
+        <h1 className="text-3xl font-bold text-white">KPI 데이터 표출</h1>
+      </div>
+
+      {/* Tab Menu */}
+      <div className="campaign-tab-container">
+        <button 
+          className={`campaign-tab ${activeTab === "campaigns" ? "active" : ""}`}
+          onClick={() => handleTabClick("campaigns")}
+        >
+          캠페인 관리
+        </button>
+        <button 
+          className={`campaign-tab ${activeTab === "messages" ? "active" : ""}`}
+          onClick={() => handleTabClick("messages")}
+        >
+          메시지 관리
+        </button>
+        <button 
+          className={`campaign-tab ${activeTab === "kpi" ? "active" : ""}`}
+          onClick={() => handleTabClick("kpi")}
+        >
+          KPI 데이터 표출
+        </button>
+      </div>
 
       {/* KPI 카드들 */}
       <div className="grid md:grid-cols-4 gap-6">
@@ -223,13 +237,21 @@ export default function AdvertiserKpiPage(){
             <BarChart3 size={20} className="text-black"/>
             <h3 className="font-semibold text-black">캠페인별 성과 데이터</h3>
           </div>
-          {/* 테이블 CSV 다운로드 버튼 */}
-          <button 
-            onClick={() => downloadCSV('detailed')}
-            className="px-3 py-2 rounded-lg bg-blue-600 text-white text-sm flex items-center gap-2 hover:bg-blue-700"
-          >
-            <Download size={16}/> 테이블 CSV
-          </button>
+          {/* CSV 다운로드 버튼들 */}
+          <div className="flex gap-2">
+            <button 
+              onClick={() => downloadCSV('summary')}
+              className="px-3 py-2 rounded-lg bg-green-600 text-white text-sm flex items-center gap-2 hover:bg-green-700"
+            >
+              <Download size={16}/> 요약 CSV
+            </button>
+            <button 
+              onClick={() => downloadCSV('detailed')}
+              className="px-3 py-2 rounded-lg bg-blue-600 text-white text-sm flex items-center gap-2 hover:bg-blue-700"
+            >
+              <Download size={16}/> 상세 CSV
+            </button>
+          </div>
         </div>
         <div className="overflow-x-auto">
           <table className="w-full text-sm">

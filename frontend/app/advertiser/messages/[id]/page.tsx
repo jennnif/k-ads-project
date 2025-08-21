@@ -4,7 +4,7 @@ import DeleteButton from "./DeleteButton";
 import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
 
-export default async function MessageDetailPage({ params }: { params: Promise<{ id: string }> }) {
+export default async function AdvertiserMessageDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
   const messageId = Number(id);
   const m = await getMessage(messageId);

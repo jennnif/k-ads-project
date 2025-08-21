@@ -26,7 +26,7 @@ export default function MessagesPage() {
     <div className="p-6 space-y-4">
       <div className="flex items-center justify-between">
         <h1 className="text-2xl font-bold">광고 메시지</h1>
-        <Link href="/messages/new" className="px-3 py-2 rounded-md bg-black text-white">새 메시지</Link>
+        <Link href="/advertiser/messages/new" className="px-3 py-2 rounded-md bg-black text-white">새 메시지</Link>
       </div>
 
       <div className="grid md:grid-cols-4 gap-2">
@@ -62,11 +62,11 @@ export default function MessagesPage() {
             {items.map(m => (
               <tr key={m.id} className="border-t">
                 <td className="p-2">{m.id}</td>
-                <td className="p-2 font-medium"><Link className="hover:underline" href={`/messages/${m.id}`}>{m.title}</Link></td>
+                <td className="p-2 font-medium"><Link className="hover:underline" href={`/advertiser/messages/${m.id}`}>{m.title}</Link></td>
                 <td className="p-2">{m.type}</td>
                 <td className="p-2">{m.status}</td>
                 <td className="p-2">{m.campaignId}</td>
-                <td className="p-2"><Link className="text-blue-600 hover:underline" href={`/messages/${m.id}`}>보기</Link></td>
+                <td className="p-2"><Link className="text-blue-600 hover:underline" href={`/advertiser/messages/${m.id}`}>보기</Link></td>
               </tr>
             ))}
             {items.length === 0 && (
