@@ -85,35 +85,34 @@ export default function Home() {
         </div>
 
         {/* Features Grid */}
-        <div className="grid md:grid-cols-3 gap-8 mb-16">
-          <div className="bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-shadow duration-300">
-            <div className="w-16 h-16 bg-blue-100 rounded-xl flex items-center justify-center mb-6">
-              <span className="text-2xl">📱</span>
+        <div className="mb-16">
+          <div className="container">
+            <div className="glass" style={{"--r": "-15"} as React.CSSProperties} data-text="스마트 타겟팅">
+              <div className="text-center">
+                <div className="text-5xl mb-8 mt-4">📱</div>
+                <div className="text-base text-gray-300 px-4 leading-relaxed">
+                  고객 세그먼트를 분석하여 정확한 타겟에게 맞춤형 광고를 전달합니다
+                </div>
+              </div>
             </div>
-            <h3 className="text-xl font-semibold text-gray-900 mb-4">스마트 타겟팅</h3>
-            <p className="text-gray-600 leading-relaxed">
-              고객 세그먼트를 분석하여 정확한 타겟에게 맞춤형 광고를 전달합니다
-            </p>
-          </div>
-
-          <div className="bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-shadow duration-300">
-            <div className="w-16 h-16 bg-green-100 rounded-xl flex items-center justify-center mb-6">
-              <span className="text-2xl">📊</span>
+            
+            <div className="glass" style={{"--r": "0"} as React.CSSProperties} data-text="실시간 분석">
+              <div className="text-center">
+                <div className="text-5xl mb-8 mt-4">📊</div>
+                <div className="text-base text-gray-300 px-4 leading-relaxed">
+                  캠페인 성과를 실시간으로 모니터링하고<br />데이터 기반 의사결정을 지원합니다
+                </div>
+              </div>
             </div>
-            <h3 className="text-xl font-semibold text-gray-900 mb-4">실시간 분석</h3>
-            <p className="text-gray-600 leading-relaxed">
-              캠페인 성과를 실시간으로 모니터링하고 데이터 기반 의사결정을 지원합니다
-            </p>
-          </div>
-
-          <div className="bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-shadow duration-300">
-            <div className="w-16 h-16 bg-purple-100 rounded-xl flex items-center justify-center mb-6">
-              <span className="text-2xl">🚀</span>
+            
+            <div className="glass" style={{"--r": "15"} as React.CSSProperties} data-text="효율적인 관리">
+              <div className="text-center">
+                <div className="text-5xl mb-8 mt-4">🚀</div>
+                <div className="text-base text-gray-300 px-4 leading-relaxed">
+                  직관적인 인터페이스로 캠페인과 메시지를 쉽게 관리할 수 있습니다
+                </div>
+              </div>
             </div>
-            <h3 className="text-xl font-semibold text-gray-900 mb-4">효율적인 관리</h3>
-            <p className="text-gray-600 leading-relaxed">
-              직관적인 인터페이스로 캠페인과 메시지를 쉽게 관리할 수 있습니다
-            </p>
           </div>
         </div>
       </div>
