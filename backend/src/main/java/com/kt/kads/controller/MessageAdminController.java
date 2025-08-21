@@ -1,6 +1,8 @@
-package com.kt.kads.message;
+package com.kt.kads.controller;
 
-import com.kt.kads.campaign.CampaignRepository;
+import com.kt.kads.entity.Message;
+import com.kt.kads.repository.MessageRepository;
+import com.kt.kads.repository.CampaignRepository; 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

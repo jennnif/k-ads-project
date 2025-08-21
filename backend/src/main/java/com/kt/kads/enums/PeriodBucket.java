@@ -1,4 +1,4 @@
-package com.kt.kads.kpi;
+package com.kt.kads.enums;
 
 public enum PeriodBucket {
     AM,PM 

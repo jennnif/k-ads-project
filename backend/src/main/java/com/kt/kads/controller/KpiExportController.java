@@ -1,5 +1,7 @@
-package com.kt.kads.kpi;
+package com.kt.kads.controller;
 
+import com.kt.kads.entity.KpiAggregate;
+import com.kt.kads.repository.KpiAggregateRepository;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ContentDisposition;
 import org.springframework.http.HttpHeaders;

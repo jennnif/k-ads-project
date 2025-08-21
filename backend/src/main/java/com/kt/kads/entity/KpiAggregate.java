@@ -1,6 +1,6 @@
-package com.kt.kads.kpi;
+package com.kt.kads.entity;
 
-import com.kt.kads.campaign.Campaign;
+import com.kt.kads.enums.PeriodBucket;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.PositiveOrZero;

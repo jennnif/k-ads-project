@@ -1,9 +1,12 @@
-package com.kt.kads.kpi;
+package com.kt.kads.controller;
 
-import com.kt.kads.campaign.Campaign;
-import com.kt.kads.campaign.CampaignRepository;
-import com.kt.kads.message.Message;
-import com.kt.kads.message.MessageRepository;
+import com.kt.kads.entity.KpiAggregate;
+import com.kt.kads.repository.KpiAggregateRepository;
+import com.kt.kads.entity.Campaign;
+import com.kt.kads.repository.CampaignRepository;
+import com.kt.kads.entity.Message;
+import com.kt.kads.repository.MessageRepository;
+import com.kt.kads.enums.PeriodBucket;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;

@@ -1,5 +1,8 @@
-package com.kt.kads.segment;
+package com.kt.kads.controller;
 
+import com.kt.kads.entity.Segment;
+import com.kt.kads.repository.SegmentRepository;
+import com.kt.kads.service.SegmentService;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

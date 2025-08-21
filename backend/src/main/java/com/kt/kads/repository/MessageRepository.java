@@ -1,5 +1,6 @@
-package com.kt.kads.message;
+package com.kt.kads.repository;
 
+import com.kt.kads.entity.Message;
 import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 

@@ -1,5 +1,6 @@
-package com.kt.kads.kpi;
+package com.kt.kads.repository;
 
+import com.kt.kads.entity.KpiAggregate;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 

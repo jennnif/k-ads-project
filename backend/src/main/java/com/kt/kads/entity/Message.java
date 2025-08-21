@@ -1,4 +1,4 @@
-package com.kt.kads.message;
+package com.kt.kads.entity;
 
 import jakarta.persistence.*;
 import java.time.OffsetDateTime;

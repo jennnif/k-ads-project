@@ -1,4 +1,4 @@
-package com.kt.kads.segment;
+package com.kt.kads.entity;
 
 import jakarta.persistence.*;
 

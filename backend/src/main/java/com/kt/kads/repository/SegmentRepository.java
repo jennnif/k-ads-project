@@ -1,5 +1,6 @@
-package com.kt.kads.segment;
+package com.kt.kads.repository;
 
+import com.kt.kads.entity.Segment;
 import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 

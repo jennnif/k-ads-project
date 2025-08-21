@@ -1,5 +1,6 @@
-package com.kt.kads.campaign;
+package com.kt.kads.repository;
 
+import com.kt.kads.entity.Campaign;
 import org.springframework.data.jpa.repository.JpaRepository;
 import java.time.LocalDate;
 import java.util.List;

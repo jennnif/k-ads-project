@@ -1,4 +1,4 @@
-package com.kt.kads.campaign;
+package com.kt.kads.entity;
 
 import jakarta.persistence.*;
 import java.math.BigDecimal;

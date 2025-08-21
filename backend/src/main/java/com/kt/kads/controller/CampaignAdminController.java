@@ -1,6 +1,8 @@
-package com.kt.kads.campaign;
+package com.kt.kads.controller;
 
-import com.kt.kads.segment.SegmentRepository; // 부모 존재 체크 용
+import com.kt.kads.entity.Campaign;
+import com.kt.kads.repository.CampaignRepository;
+import com.kt.kads.repository.SegmentRepository; // 부모 존재 체크 용
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
