@@ -6,6 +6,7 @@ import { listCampaigns, type Campaign } from "@/lib/api";
 import { useEffect, useState } from "react";
 import { Plus, Pencil, Trash2, Search } from "lucide-react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import CampaignCreateDialog from "./CampaignCreateDialog";
 
 export default function AdvertiserCampaignsPage(){
@@ -14,6 +15,8 @@ export default function AdvertiserCampaignsPage(){
   const [status,setStatus]=useState(""); 
   const [segmentId,setSegmentId]=useState("");
   const [open,setOpen]=useState(false);
+  const [activeTab, setActiveTab] = useState("campaigns");
+  const router = useRouter();
 
   const load=async()=>{
     const p:any={}; 
@@ -25,26 +28,52 @@ export default function AdvertiserCampaignsPage(){
   
   useEffect(()=>{ load(); },[]);
 
+  const handleTabClick = (tab: string) => {
+    setActiveTab(tab);
+    if (tab === "messages") {
+      router.push("/advertiser/messages");
+    } else if (tab === "kpi") {
+      router.push("/advertiser/kpi");
+    }
+  };
+
   return (
     <div className="space-y-6">
-      <PageHeader title="캠페인 관리" tabs={
-        <div className="flex items-center justify-between rounded-full bg-white border shadow-sm px-3 py-2">
-          <div className="flex gap-6 text-sm">
-            <Link href="/advertiser/campaigns" className="font-semibold text-black">캠페인 관리</Link>
-            <Link href="/advertiser/messages" className="text-black hover:text-gray-700">메시지 관리</Link>
-            <Link href="/advertiser/kpi" className="text-black hover:text-gray-700">KPI 데이터 표출</Link>
-          </div>
-          <button onClick={()=>setOpen(true)} className="px-3 py-2 rounded-lg bg-[rgb(var(--brand-500))] text-white text-sm flex items-center gap-2">
-            <Plus size={16}/> 캠페인 생성
-          </button>
-        </div>
-      }/>
+      {/* Header with Title and Create Button */}
+      <div className="flex justify-between items-center">
+        <h1 className="text-3xl font-bold text-white">캠페인 관리</h1>
+        <button onClick={()=>setOpen(true)} className="px-6 py-3 rounded-lg bg-[rgb(var(--brand-500))] text-white text-sm flex items-center gap-2 hover:bg-[rgb(var(--brand-600))] transition-colors">
+          <Plus size={16}/> 캠페인 생성
+        </button>
+      </div>
+
+      {/* Tab Menu */}
+      <div className="campaign-tab-container">
+        <button 
+          className={`campaign-tab ${activeTab === "campaigns" ? "active" : ""}`}
+          onClick={() => handleTabClick("campaigns")}
+        >
+          캠페인 관리
+        </button>
+        <button 
+          className={`campaign-tab ${activeTab === "messages" ? "active" : ""}`}
+          onClick={() => handleTabClick("messages")}
+        >
+          메시지 관리
+        </button>
+        <button 
+          className={`campaign-tab ${activeTab === "kpi" ? "active" : ""}`}
+          onClick={() => handleTabClick("kpi")}
+        >
+          KPI 데이터 표출
+        </button>
+      </div>
       
       <FilterBox q={q} setQ={setQ} status={status} setStatus={setStatus} segmentId={segmentId} setSegmentId={setSegmentId} onApply={load}/>
 
       <div className="grid md:grid-cols-3 gap-6">
         {items.map(c=>(
-          <Card key={c.id} className="hover:shadow-xl transition-shadow cursor-pointer">
+          <Card key={c.id} className="campaign-card hover:shadow-xl transition-shadow cursor-pointer">
             <CardBody>
               <div className="flex justify-between">
                 <div className="text-lg font-semibold text-black">{c.name}</div>

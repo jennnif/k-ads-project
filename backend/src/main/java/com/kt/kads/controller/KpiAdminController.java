@@ -6,12 +6,9 @@ import com.kt.kads.entity.Campaign;
 import com.kt.kads.repository.CampaignRepository;
 import com.kt.kads.entity.Message;
 import com.kt.kads.repository.MessageRepository;
-import com.kt.kads.enums.PeriodBucket;
 import com.kt.kads.dto.KpiDto.*;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.PositiveOrZero;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
 
