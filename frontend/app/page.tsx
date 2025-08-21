@@ -12,10 +12,12 @@ export default function Home() {
       {/* Hero Section */}
       <div className="px-6 py-16">
         <div className="text-center mb-16">
-          <div className="inline-flex items-center justify-center w-20 h-20 bg-blue-600 rounded-2xl mb-6">
-            <span className="text-3xl font-bold text-white">K</span>
+          <div className="relative inline-block mb-6">
+            <div className="h-20 w-20 rounded-2xl bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center shadow-md">
+              <span className="text-white font-bold text-3xl">K</span>
+            </div>
+            <div className="absolute -top-1 -right-1 h-4 w-4 bg-orange-400 rounded-full" />
           </div>
-
           {/* Jua 폰트 + 그라디언트 텍스트 */}
           <h1
             className="text-4xl md:text-5xl font-extrabold mb-4 tracking-tight"
@@ -25,7 +27,7 @@ export default function Home() {
           </h1>
 
           <p className="text-lg md:text-xl text-gray-300 max-w-3xl mx-auto leading-relaxed">
-            맞춤형 문자광고 서비스로 고객과의 소통을 더욱 효과적으로 만들 수 있습니다
+            k-ads만의 독보적인 솔루션으로 문자광고를 더욱 효과적으로 집행할 수 있습니다
           </p>
         </div>
 
@@ -89,7 +91,7 @@ export default function Home() {
           <div className="container">
             <div className="glass" style={{"--r": "-15"} as React.CSSProperties} data-text="스마트 타겟팅">
               <div className="text-center">
-                <div className="text-5xl mb-8 mt-4">📱</div>
+                <div className="text-5xl mb-8 mt-1">📱</div>
                 <div className="text-base text-gray-300 px-4 leading-relaxed">
                   고객 세그먼트를 분석하여 정확한 타겟에게 맞춤형 광고를 전달합니다
                 </div>
@@ -98,7 +100,7 @@ export default function Home() {
             
             <div className="glass" style={{"--r": "0"} as React.CSSProperties} data-text="실시간 분석">
               <div className="text-center">
-                <div className="text-5xl mb-8 mt-4">📊</div>
+                <div className="text-5xl mb-8 mt-1">📊</div>
                 <div className="text-base text-gray-300 px-4 leading-relaxed">
                   캠페인 성과를 실시간으로 모니터링하고<br />데이터 기반 의사결정을 지원합니다
                 </div>
@@ -107,7 +109,7 @@ export default function Home() {
             
             <div className="glass" style={{"--r": "15"} as React.CSSProperties} data-text="효율적인 관리">
               <div className="text-center">
-                <div className="text-5xl mb-8 mt-4">🚀</div>
+                <div className="text-5xl mb-8 mt-1">🚀</div>
                 <div className="text-base text-gray-300 px-4 leading-relaxed">
                   직관적인 인터페이스로 캠페인과 메시지를 쉽게 관리할 수 있습니다
                 </div>
