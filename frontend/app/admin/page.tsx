@@ -12,7 +12,7 @@ export default function AdminHomePage() {
 
       {/* Features Grid */}
       <div className="flex flex-wrap justify-center gap-8 mb-16">
-        <div className="advertiser-card">
+        <div className="admin-card">
           <p>🎯</p>
           <div className="heading">세그먼트 관리</div>
           <p>고객 세그먼트를 생성하고 관리합니다</p>
@@ -24,7 +24,7 @@ export default function AdminHomePage() {
           </a>
         </div>
 
-        <div className="advertiser-card">
+        <div className="admin-card">
           <p>📊</p>
           <div className="heading">KPI 데이터 집계</div>
           <p>캠페인 성과 데이터를 집계하고 분석합니다</p>
