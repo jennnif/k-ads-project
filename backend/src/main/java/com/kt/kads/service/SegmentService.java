@@ -10,7 +10,7 @@ import java.util.Optional;
 
 @Service
 @Transactional(readOnly = true)
-public class SegmentService {
+public class SegmentService implements ISegmentService {
 
     private final SegmentRepository segmentRepository;
 

@@ -5,6 +5,7 @@ import com.kt.kads.repository.CampaignRepository;
 import com.kt.kads.repository.SegmentRepository; // 부모 존재 체크 용
 import com.kt.kads.dto.CampaignDto.CampaignUpsertRequest;
 import com.kt.kads.dto.CampaignDto.CampaignResponse;
+import com.kt.kads.service.ICampaignService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -21,10 +22,12 @@ public class CampaignAdminController {
 
     private final CampaignRepository repo;
     private final SegmentRepository segmentRepo;
+    private final ICampaignService campaignService;
 
-    public CampaignAdminController(CampaignRepository repo, SegmentRepository segmentRepo) {
+    public CampaignAdminController(CampaignRepository repo, SegmentRepository segmentRepo, ICampaignService campaignService) {
         this.repo = repo;
         this.segmentRepo = segmentRepo;
+        this.campaignService = campaignService;
     }
 
     /* ======= Read ======= */
@@ -40,17 +43,17 @@ public class CampaignAdminController {
         List<Campaign> all;
 
         if (q != null && !q.trim().isEmpty()) {
-            all = repo.findByNameIgnoreCaseContaining(q.trim());
+            all = campaignService.findByNameContaining(q.trim());
         } else if (status != null) {
-            all = repo.findByStatus(status);
+            all = campaignService.findByStatus(status);
         } else if (segmentId != null) {
-            all = repo.findBySegmentId(segmentId);
+            all = campaignService.findBySegmentId(segmentId);
         } else if (fromStr != null && toStr != null) {
             LocalDate from = LocalDate.parse(fromStr);
             LocalDate to = LocalDate.parse(toStr);
-            all = repo.findByStartDateLessThanEqualAndEndDateGreaterThanEqual(to, from);
+            all = campaignService.findByDateRange(from, to);
         } else {
-            all = repo.findAll();
+            all = campaignService.findAll();
         }
 
         return all.stream()
@@ -61,7 +64,7 @@ public class CampaignAdminController {
 
     @GetMapping("/{id:\\d+}")
     public ResponseEntity<CampaignResponse> get(@PathVariable Long id) {
-        return repo.findById(id)
+        return campaignService.findById(id)
                 .map(CampaignResponse::from)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
@@ -89,7 +92,7 @@ public class CampaignAdminController {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "endDate must be >= startDate");
         }
 
-        Campaign saved = repo.save(c);
+        Campaign saved = campaignService.createCampaign(c);
         return ResponseEntity.status(HttpStatus.CREATED).body(CampaignResponse.from(saved));
     }
 
@@ -99,13 +102,7 @@ public class CampaignAdminController {
     public ResponseEntity<CampaignResponse> update(@PathVariable Long id, @RequestBody CampaignUpsertRequest req) {
         validate(req);
 
-        Campaign c = repo.findById(id).orElseThrow(() ->
-                new ResponseStatusException(HttpStatus.NOT_FOUND, "campaign not found: " + id));
-
-        if (!segmentRepo.existsById(req.segmentId())) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "segmentId not found: " + req.segmentId());
-        }
-
+        Campaign c = new Campaign();
         c.setName(req.name().trim());
         c.setStatus(req.status());
         c.setBudget(new BigDecimal(req.budget()));
@@ -113,11 +110,15 @@ public class CampaignAdminController {
         c.setEndDate(LocalDate.parse(req.endDate()));
         c.setSegmentId(req.segmentId());
 
+        if (!segmentRepo.existsById(req.segmentId())) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "segmentId not found: " + req.segmentId());
+        }
+
         if (c.getEndDate().isBefore(c.getStartDate())) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "endDate must be >= startDate");
         }
 
-        Campaign saved = repo.save(c);
+        Campaign saved = campaignService.updateCampaign(id, c);
         return ResponseEntity.ok(CampaignResponse.from(saved));
     }
 
@@ -125,10 +126,24 @@ public class CampaignAdminController {
 
     @DeleteMapping("/{id:\\d+}")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
-        var it = repo.findById(id).orElseThrow(() ->
-                new ResponseStatusException(HttpStatus.NOT_FOUND, "campaign not found: " + id));
-        repo.delete(it);
+        campaignService.deleteCampaign(id);
         return ResponseEntity.noContent().build();
+    }
+
+    /* ======= Utility ======= */
+
+    /**
+     * 기간이 지난 캠페인 상태를 수동으로 업데이트
+     */
+    @PostMapping("/update-expired")
+    public ResponseEntity<String> updateExpiredCampaigns() {
+        try {
+            campaignService.manuallyUpdateExpiredCampaigns();
+            return ResponseEntity.ok("Expired campaigns updated successfully");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Failed to update expired campaigns: " + e.getMessage());
+        }
     }
 
     /* ======= validate ======= */

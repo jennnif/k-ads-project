@@ -12,4 +12,7 @@ public interface CampaignRepository extends JpaRepository<Campaign, Long> {
 
     // 날짜 겹침 검색: [startDate, endDate]가 주어진 기간과 겹치는 항목
     List<Campaign> findByStartDateLessThanEqualAndEndDateGreaterThanEqual(LocalDate to, LocalDate from);
+    
+    // 기간이 지난 캠페인을 찾기 위한 메서드
+    List<Campaign> findByEndDateBeforeAndStatusIn(LocalDate endDate, List<Campaign.Status> statuses);
 }
