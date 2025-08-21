@@ -75,19 +75,11 @@ export default function AdvertiserCampaignsPage(){
         {items.map(c=>(
           <Card key={c.id} className="campaign-card hover:shadow-xl transition-shadow cursor-pointer">
             <CardBody>
-              <div className="flex justify-between">
+              <div className="text-center">
                 <div className="text-lg font-semibold text-black">{c.name}</div>
-                <div className="flex gap-2 text-black">
-                  <Link href={`/advertiser/campaigns/${c.id}`} className="p-1 hover:bg-gray-100 rounded-md" title="수정">
-                    <Pencil size={16}/>
-                  </Link>
-                  <Link href={`/advertiser/campaigns/${c.id}`} className="p-1 hover:bg-gray-100 rounded-md" title="삭제">
-                    <Trash2 size={16}/>
-                  </Link>
-                </div>
               </div>
 
-              <div className="mt-1 text-sm text-black font-medium">세그먼트 ID: {c.segmentId}</div>
+              <div className="mt-1 text-sm text-black font-medium text-center">세그먼트 ID: {c.segmentId}</div>
 
               <div className="mt-3 rounded-xl border bg-yellow-50 p-3">
                 <div className="text-sm font-medium text-black">전환 목표</div>

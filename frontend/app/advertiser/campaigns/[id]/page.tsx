@@ -75,48 +75,48 @@ export default function CampaignDetailPage() {
       {/* Campaign Info Grid */}
       <div className="grid md:grid-cols-2 gap-6">
         {/* Basic Info */}
-        <div className="bg-white bg-opacity-10 rounded-lg p-6">
-          <h2 className="text-xl font-semibold text-white mb-4">기본 정보</h2>
+        <div className="bg-white bg-opacity-90 rounded-lg p-6">
+          <h2 className="text-xl font-semibold text-black mb-4">기본 정보</h2>
           <div className="space-y-3">
             <div className="flex items-center gap-3">
-              <Calendar className="w-5 h-5 text-blue-400" />
-              <span className="text-gray-300">시작일: {campaign.startDate}</span>
+              <Calendar className="w-5 h-5 text-blue-600" />
+              <span className="text-black">시작일: {campaign.startDate}</span>
             </div>
             <div className="flex items-center gap-3">
-              <Calendar className="w-5 h-5 text-red-400" />
-              <span className="text-gray-300">종료일: {campaign.endDate}</span>
+              <Calendar className="w-5 h-5 text-red-600" />
+              <span className="text-black">종료일: {campaign.endDate}</span>
             </div>
             <div className="flex items-center gap-3">
-              <DollarSign className="w-5 h-5 text-green-400" />
-              <span className="text-gray-300">예산: {Number(campaign.budget).toLocaleString()}원</span>
+              <DollarSign className="w-5 h-5 text-green-600" />
+              <span className="text-black">예산: {Number(campaign.budget).toLocaleString()}원</span>
             </div>
             <div className="flex items-center gap-3">
-              <Users className="w-5 h-5 text-purple-400" />
-              <span className="text-gray-300">세그먼트 ID: {campaign.segmentId}</span>
+              <Users className="w-5 h-5 text-purple-600" />
+              <span className="text-black">세그먼트 ID: {campaign.segmentId}</span>
             </div>
           </div>
         </div>
 
         {/* Status & Performance */}
-        <div className="bg-white bg-opacity-10 rounded-lg p-6">
-          <h2 className="text-xl font-semibold text-white mb-4">상태 및 성과</h2>
+        <div className="bg-white bg-opacity-90 rounded-lg p-6">
+          <h2 className="text-xl font-semibold text-black mb-4">상태 및 성과</h2>
           <div className="space-y-3">
             <div className="flex items-center gap-3">
-              <Target className="w-5 h-5 text-yellow-400" />
-              <span className="text-gray-300">상태: {campaign.status}</span>
+              <Target className="w-5 h-5 text-yellow-600" />
+              <span className="text-black">상태: {campaign.status}</span>
             </div>
-            <div className="bg-yellow-500 bg-opacity-20 rounded-lg p-3">
-              <div className="text-sm font-medium text-yellow-300">전환 목표</div>
-              <div className="text-sm text-yellow-200">설정한 목표를 여기에 노출</div>
+            <div className="bg-yellow-100 rounded-lg p-3">
+              <div className="text-sm font-medium text-black">전환 목표</div>
+              <div className="text-sm text-black">설정한 목표를 여기에 노출</div>
             </div>
           </div>
         </div>
       </div>
 
       {/* Campaign Description */}
-      <div className="bg-white bg-opacity-10 rounded-lg p-6">
-        <h2 className="text-xl font-semibold text-white mb-4">캠페인 설명</h2>
-        <p className="text-gray-300">
+      <div className="bg-white bg-opacity-90 rounded-lg p-6">
+        <h2 className="text-xl font-semibold text-black mb-4">캠페인 설명</h2>
+        <p className="text-black">
           {campaign.name} 캠페인의 상세 정보입니다. 세그먼트 {campaign.segmentId}를 대상으로 
           {campaign.startDate}부터 {campaign.endDate}까지 진행되며, 
           총 예산 {Number(campaign.budget).toLocaleString()}원으로 운영됩니다.
@@ -124,18 +124,12 @@ export default function CampaignDetailPage() {
       </div>
 
       {/* Action Buttons */}
-      <div className="flex justify-center gap-4">
+      <div className="flex justify-center">
         <Link
           href="/advertiser/campaigns"
           className="px-6 py-3 bg-gray-600 hover:bg-gray-700 text-white rounded-lg transition-colors"
         >
           목록으로 돌아가기
-        </Link>
-        <Link
-          href={`/campaigns/${campaign.id}`}
-          className="px-6 py-3 bg-blue-500 hover:bg-blue-600 text-white rounded-lg transition-colors"
-        >
-          전체 관리 페이지
         </Link>
       </div>
     </div>
