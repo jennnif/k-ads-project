@@ -124,6 +124,12 @@ export async function getCampaign(id: number): Promise<Campaign | null> {
   return res.json();
 }
 
+export async function getAdvertiserCampaign(id: number): Promise<Campaign | null> {
+  const res = await fetch(`${API_BASE_URL}/api/advertiser/campaigns/${id}`, { cache: "no-store" });
+  if (!res.ok) return null;
+  return res.json();
+}
+
 export async function createCampaign(payload: Omit<Campaign, "id"|"createdAt"|"updatedAt">): Promise<Campaign> {
   const res = await fetch(`${API_BASE_URL}/api/admin/campaigns`, {
     method: "POST", headers: { "Content-Type": "application/json" }, cache: "no-store",

@@ -78,10 +78,10 @@ export default function AdvertiserCampaignsPage(){
               <div className="flex justify-between">
                 <div className="text-lg font-semibold text-black">{c.name}</div>
                 <div className="flex gap-2 text-black">
-                  <Link href={`/campaigns/${c.id}`} className="p-1 hover:bg-gray-100 rounded-md" title="수정">
+                  <Link href={`/advertiser/campaigns/${c.id}`} className="p-1 hover:bg-gray-100 rounded-md" title="수정">
                     <Pencil size={16}/>
                   </Link>
-                  <Link href={`/campaigns/${c.id}`} className="p-1 hover:bg-gray-100 rounded-md" title="삭제">
+                  <Link href={`/advertiser/campaigns/${c.id}`} className="p-1 hover:bg-gray-100 rounded-md" title="삭제">
                     <Trash2 size={16}/>
                   </Link>
                 </div>
@@ -101,9 +101,22 @@ export default function AdvertiserCampaignsPage(){
               </div>
 
               <div className="mt-3 text-right">
-                <Link className="text-[rgb(var(--brand-600))] hover:underline text-sm" href={`/campaigns/${c.id}`}>
+                <button 
+                  onClick={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    console.log('세부정보보기 클릭됨:', c.id);
+                    router.push(`/advertiser/campaigns/${c.id}`);
+                  }}
+                  onMouseDown={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                  }}
+                  className="text-[rgb(var(--brand-600))] hover:underline text-sm cursor-pointer bg-blue-100 hover:bg-blue-200 px-3 py-1 rounded border border-blue-300 transition-colors relative z-10"
+                  style={{ position: 'relative', zIndex: 10 }}
+                >
                   세부 정보 보기
-                </Link>
+                </button>
               </div>
             </CardBody>
           </Card>
