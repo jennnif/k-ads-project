@@ -1,7 +1,6 @@
 package com.kt.kads.dto;
 
 import com.kt.kads.entity.Message;
-import java.math.BigDecimal;
 
 public class MessageDto {
     

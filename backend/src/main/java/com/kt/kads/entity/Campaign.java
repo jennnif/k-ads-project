@@ -54,12 +54,17 @@ public class Campaign {
 
     public enum ChannelType { SMS, MMS, RCS }
 
-    // getters/setters
+    // ===== getters/setters =====
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
 
     public String getName() { return name; }
     public void setName(String name) { this.name = name; }
+
+    // 별칭 게터: 컨트롤러 등에서 공통적으로 "제목"으로 사용할 수 있게
+    public String getTitle() { return this.name; }
+    // (선택) 별칭 세터도 원하면 사용 가능
+    public void setTitle(String title) { this.name = title; }
 
     public Status getStatus() { return status; }
     public void setStatus(Status status) { this.status = status; }
@@ -87,6 +92,7 @@ public class Campaign {
 
     public OffsetDateTime getCreatedAt() { return createdAt; }
     public void setCreatedAt(OffsetDateTime createdAt) { this.createdAt = createdAt; }
+
     public OffsetDateTime getUpdatedAt() { return updatedAt; }
     public void setUpdatedAt(OffsetDateTime updatedAt) { this.updatedAt = updatedAt; }
 }

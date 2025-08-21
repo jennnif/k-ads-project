@@ -1,3 +1,4 @@
+// ===================== Segments =====================
 export type Segment = {
   id: number;
   name: string;
@@ -38,7 +39,6 @@ export async function createSegment(payload: { name: string; parentId: number | 
   const res = await fetch(`${base}/api/admin/segments`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    // Next 15 App Router: 서버 액션/SSR 혼용 대비 캐시 방지
     cache: "no-store",
     body: JSON.stringify(payload),
   });
@@ -91,6 +91,7 @@ export async function fetchRootSegments(): Promise<Segment[]> {
   return res.json();
 }
 
+// ===================== Campaigns =====================
 export type Campaign = {
   id: number;
   name: string;
@@ -153,6 +154,7 @@ export async function deleteCampaign(id: number): Promise<void> {
   if (!res.ok) throw new Error(await res.text());
 }
 
+// ===================== Messages =====================
 export type Message = {
   id: number;
   campaignId: number;
@@ -203,6 +205,7 @@ export async function deleteMessage(id: number): Promise<void> {
   if (!r.ok) throw new Error(await r.text());
 }
 
+// ===================== KPI =====================
 export type KpiDashboard = {
   totalSent: number;
   totalClicks: number;
@@ -235,4 +238,25 @@ export async function getCampaignsPerformance(): Promise<CampaignPerformance[]> 
   });
   if (!res.ok) throw new Error("Failed to fetch campaigns performance");
   return res.json();
+}
+
+// ===================== AI Recommendation =====================
+export async function fetchRecommended(params: { campaignId?: number; category?: string; channel?: string }) {
+  const base = process.env.NEXT_PUBLIC_API_BASE_URL?.replace(/\/$/, "") || "http://localhost:8080";
+  let url: string;
+
+  if (params.campaignId != null) {
+    const qs = new URLSearchParams();
+    if (params.channel) qs.set("channel", params.channel);
+    url = `${base}/api/recommendations/by-campaign/${params.campaignId}?${qs.toString()}`;
+  } else {
+    const qs = new URLSearchParams();
+    if (params.category) qs.set("category", params.category);
+    if (params.channel) qs.set("channel", params.channel);
+    url = `${base}/api/recommendations/random?${qs.toString()}`;
+  }
+
+  const res = await fetch(url, { cache: "no-store" });
+  if (!res.ok) throw new Error("추천 문구 호출 실패");
+  return res.json() as Promise<{ id: number; content: string; category: string; channel: string }>;
 }

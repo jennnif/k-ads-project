@@ -1,70 +1,98 @@
 "use client";
 import { useEffect, useState } from "react";
-import { createMessage, listCampaigns, type Campaign } from "@/lib/api";
+import { createMessage, listCampaigns, type Campaign, fetchRecommended } from "@/lib/api";
 
-export default function MessageCreateDialog({open,onOpenChange,onCreated}:{
-  open:boolean;
-  onOpenChange:(v:boolean)=>void;
-  onCreated:()=>void;
-}){
-  const [campaigns,setCampaigns]=useState<Campaign[]>([]);
-  const [form,setForm]=useState({ 
-    campaignId:"", 
-    type:"SMS", 
-    title:"", 
-    content:"" 
+export default function MessageCreateDialog({
+  open,
+  onOpenChange,
+  onCreated,
+}: {
+  open: boolean;
+  onOpenChange: (v: boolean) => void;
+  onCreated: () => void;
+}) {
+  const [campaigns, setCampaigns] = useState<Campaign[]>([]);
+  const [form, setForm] = useState({
+    campaignId: "",
+    type: "SMS",
+    title: "",
+    content: "",
   });
-  const [err,setErr]=useState<string|null>(null); 
-  const [loading,setLoading]=useState(false);
+  const [err, setErr] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
+  const [aiLoading, setAiLoading] = useState(false);
 
-  const maxLength = form.type === 'SMS' ? 90 : 2000;
+  const maxLength = form.type === "SMS" ? 90 : 2000;
   const currentLength = form.content.length;
 
-  useEffect(()=>{ 
-    listCampaigns().then(setCampaigns).catch(()=>setCampaigns([])); 
-  },[]);
+  useEffect(() => {
+    listCampaigns().then(setCampaigns).catch(() => setCampaigns([]));
+  }, []);
 
   const handleSubmit = async () => {
-    if(!form.campaignId || !form.title.trim() || !form.content.trim()) { 
-      setErr("필수 항목을 입력해 주세요."); 
-      return; 
+    if (!form.campaignId || !form.title.trim() || !form.content.trim()) {
+      setErr("필수 항목을 입력해 주세요.");
+      return;
     }
-    
-    if(form.content.length < 5) {
+    if (form.content.length < 5) {
       setErr("메시지 내용은 최소 5자 이상 입력해주세요.");
       return;
     }
-
-    if(form.content.length > maxLength) {
+    if (form.content.length > maxLength) {
       setErr(`메시지 내용이 ${maxLength}자를 초과했습니다.`);
       return;
     }
-    
-    try{
-      setErr(null); 
+
+    try {
+      setErr(null);
       setLoading(true);
       await createMessage({
         campaignId: Number(form.campaignId),
         type: form.type as any,
-        title: form.title.trim(), 
+        title: form.title.trim(),
         content: form.content.trim(),
         status: "DRAFT" as any,
       } as any);
       onCreated();
-      // 폼 초기화
-      setForm({ campaignId:"", type:"SMS", title:"", content:"" });
-    }catch(e:any){ 
-      setErr(e?.message || "생성 실패"); 
-    } finally{ 
-      setLoading(false); 
+      setForm({ campaignId: "", type: "SMS", title: "", content: "" });
+    } catch (e: any) {
+      setErr(e?.message || "생성 실패");
+    } finally {
+      setLoading(false);
     }
   };
 
-  if(!open) return null;
+  const handleAiSuggest = async () => {
+    if (!form.campaignId) {
+      setErr("캠페인을 먼저 선택하세요.");
+      return;
+    }
+    try {
+      setErr(null);
+      setAiLoading(true);
+      const data = await fetchRecommended({
+        campaignId: Number(form.campaignId),
+        channel: form.type, // "SMS" | "MMS" | "RCS"
+      });
+      setForm((prev) => ({ ...prev, content: data.content ?? "" }));
+    } catch (e: any) {
+      setErr(e?.message || "AI 추천 문구를 불러오지 못했어요.");
+    } finally {
+      setAiLoading(false);
+    }
+  };
+
+  if (!open) return null;
 
   return (
-    <div className="fixed inset-0 bg-black/40 z-50 flex items-center justify-center" onClick={()=>onOpenChange(false)}>
-      <div className="w-[600px] bg-white rounded-2xl shadow-2xl p-6" onClick={(e)=>e.stopPropagation()}>
+    <div
+      className="fixed inset-0 bg-black/40 z-50 flex items-center justify-center"
+      onClick={() => onOpenChange(false)}
+    >
+      <div
+        className="w-[600px] bg-white rounded-2xl shadow-2xl p-6"
+        onClick={(e) => e.stopPropagation()}
+      >
         <div className="text-lg font-semibold mb-1 text-blue-600">새 메시지 등록</div>
         <div className="text-sm text-gray-500 mb-4">
           <div>새로운 광고 메시지를 등록합니다.</div>
@@ -75,24 +103,26 @@ export default function MessageCreateDialog({open,onOpenChange,onCreated}:{
           <div className="grid md:grid-cols-2 gap-4">
             <div>
               <label className="block text-sm mb-1 text-black">캠페인 (필수)</label>
-              <select 
-                className="w-full border rounded-lg p-2 bg-white text-black" 
-                value={form.campaignId} 
-                onChange={(e)=>setForm({...form, campaignId:e.target.value})}
+              <select
+                className="w-full border rounded-lg p-2 bg-white text-black"
+                value={form.campaignId}
+                onChange={(e) => setForm({ ...form, campaignId: e.target.value })}
               >
                 <option value="">캠페인을 선택하세요</option>
-                {campaigns.map((c:Campaign)=>(
-                  <option key={c.id} value={c.id}>[{c.id}] {c.name}</option>
+                {campaigns.map((c: Campaign) => (
+                  <option key={c.id} value={c.id}>
+                    [{c.id}] {c.name}
+                  </option>
                 ))}
               </select>
             </div>
-            
+
             <div>
               <label className="block text-sm mb-1 text-black">메시지 유형 (필수)</label>
-              <select 
-                className="w-full border rounded-lg p-2 bg-white text-black" 
-                value={form.type} 
-                onChange={(e)=>setForm({...form, type:e.target.value, content: ""})} // 타입 변경시 내용 초기화
+              <select
+                className="w-full border rounded-lg p-2 bg-white text-black"
+                value={form.type}
+                onChange={(e) => setForm({ ...form, type: e.target.value, content: "" })}
               >
                 <option value="SMS">SMS (단문)</option>
                 <option value="MMS">MMS (멀티미디어)</option>
@@ -103,27 +133,39 @@ export default function MessageCreateDialog({open,onOpenChange,onCreated}:{
 
           <div>
             <label className="block text-sm mb-1 text-black">메시지 제목 (필수)</label>
-            <input 
-              className="w-full border rounded-lg p-2 bg-white text-black" 
-              placeholder="메시지 제목을 입력하세요" 
-              value={form.title} 
-              onChange={(e)=>setForm({...form, title:e.target.value})}
+            <input
+              className="w-full border rounded-lg p-2 bg-white text-black"
+              placeholder="메시지 제목을 입력하세요"
+              value={form.title}
+              onChange={(e) => setForm({ ...form, title: e.target.value })}
               maxLength={100}
             />
           </div>
 
           <div>
-            <label className="block text-sm mb-1 text-black">
-              메시지 내용 (필수) 
-              <span className="text-xs text-gray-500 ml-2">
-                최소 5자, {form.type} 최대 {maxLength}자
-              </span>
-            </label>
-            <textarea 
-              className="w-full border rounded-lg p-2 min-h-[120px] resize-none bg-white text-black" 
+            <div className="flex items-center justify-between">
+              <label className="block text-sm mb-1 text-black">
+                메시지 내용 (필수)
+                <span className="text-xs text-gray-500 ml-2">
+                  최소 5자, {form.type} 최대 {maxLength}자
+                </span>
+              </label>
+              <button
+                type="button"
+                className="px-3 py-1.5 text-sm rounded-lg bg-black text-white disabled:opacity-50 mb-2"
+                disabled={!form.campaignId || aiLoading}
+                title={!form.campaignId ? "캠페인을 먼저 선택하세요" : undefined}
+                onClick={handleAiSuggest}
+              >
+                {aiLoading ? "불러오는 중..." : "AI 추천 문구"}
+              </button>
+            </div>
+
+            <textarea
+              className="w-full border rounded-lg p-2 min-h-[120px] resize-none bg-white text-black"
               placeholder={`메시지 내용을 입력하세요 (${form.type} ${maxLength}자 제한)`}
-              value={form.content} 
-              onChange={(e)=>setForm({...form, content:e.target.value})}
+              value={form.content}
+              onChange={(e) => setForm({ ...form, content: e.target.value })}
               maxLength={maxLength}
             />
             <div className="flex justify-between text-xs mt-1">
@@ -149,9 +191,9 @@ export default function MessageCreateDialog({open,onOpenChange,onCreated}:{
         {err && <div className="text-red-500 text-sm mt-3">{err}</div>}
 
         <div className="flex justify-end gap-2 mt-6">
-          <button 
-            className="px-4 py-2 rounded-lg border hover:bg-gray-50 text-black text-sm" 
-            onClick={()=>onOpenChange(false)}
+          <button
+            className="px-4 py-2 rounded-lg border hover:bg-gray-50 text-black text-sm"
+            onClick={() => onOpenChange(false)}
           >
             취소
           </button>
