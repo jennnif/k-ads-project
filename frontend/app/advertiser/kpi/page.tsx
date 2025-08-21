@@ -190,7 +190,12 @@ export default function AdvertiserKpiPage(){
         {kpis.map((kpi, index) => (
           <div 
             key={index}
-            className="rounded-2xl border bg-white p-5 transition hover:bg-[rgb(var(--brand-500)/.04)] hover:border-[rgb(var(--brand-500))] cursor-pointer"
+            className={`rounded-2xl border bg-white p-5 transition-all duration-300 cursor-pointer transform hover:-translate-y-2 hover:shadow-xl ${
+              index === 0 ? "hover:bg-blue-50 hover:border-blue-500 hover:shadow-blue-200" : // 파랑 계열
+              index === 1 ? "hover:bg-green-50 hover:border-green-500 hover:shadow-green-200" : // 초록 계열
+              index === 2 ? "hover:bg-purple-50 hover:border-purple-500 hover:shadow-purple-200" : // 보라 계열
+              "hover:bg-orange-50 hover:border-orange-500 hover:shadow-orange-200" // 주황 계열
+            }`}
           >
             <div className="flex items-center justify-between mb-3">
               <div className={`p-2 rounded-lg ${kpi.bgColor}`}>
