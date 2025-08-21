@@ -65,7 +65,7 @@ export default function AdminKpiPage() {
 
       {/* KPI 데이터 정의 카드들 */}
       <div className="grid md:grid-cols-4 gap-4">
-        <Card className="text-center p-4">
+        <Card className="text-center p-4 rounded-2xl border bg-white transition-all duration-300 cursor-pointer transform hover:-translate-y-2 hover:shadow-xl hover:bg-blue-50 hover:border-blue-500 hover:shadow-blue-200">
           <div className="text-blue-600 mb-2">
             <TrendingUp size={32} className="mx-auto"/>
           </div>
@@ -76,7 +76,7 @@ export default function AdminKpiPage() {
           <div className="text-xs text-blue-600 mt-1">CTR 25.4%</div>
         </Card>
 
-        <Card className="text-center p-4">
+        <Card className="text-center p-4 rounded-2xl border bg-white transition-all duration-300 cursor-pointer transform hover:-translate-y-2 hover:shadow-xl hover:bg-green-50 hover:border-green-500 hover:shadow-green-200">
           <div className="text-green-600 mb-2">
             <BarChart3 size={32} className="mx-auto"/>
           </div>
@@ -87,7 +87,7 @@ export default function AdminKpiPage() {
           <div className="text-xs text-green-600 mt-1">CVR 25.7%</div>
         </Card>
 
-        <Card className="text-center p-4">
+        <Card className="text-center p-4 rounded-2xl border bg-white transition-all duration-300 cursor-pointer transform hover:-translate-y-2 hover:shadow-xl hover:bg-purple-50 hover:border-purple-500 hover:shadow-purple-200">
           <div className="text-purple-600 mb-2">
             <div className="w-8 h-8 mx-auto bg-purple-100 rounded-full flex items-center justify-center">
               🎯
@@ -100,7 +100,7 @@ export default function AdminKpiPage() {
           <div className="text-xs text-purple-600 mt-1">CTR 25.4% | CVR 25.7%</div>
         </Card>
 
-        <Card className="text-center p-4">
+        <Card className="text-center p-4 rounded-2xl border bg-white transition-all duration-300 cursor-pointer transform hover:-translate-y-2 hover:shadow-xl hover:bg-orange-50 hover:border-orange-500 hover:shadow-orange-200">
           <div className="text-orange-600 mb-2">
             <div className="w-8 h-8 mx-auto bg-orange-100 rounded-full flex items-center justify-center">
               ₩
@@ -115,7 +115,7 @@ export default function AdminKpiPage() {
       </div>
 
       {/* 캠페인별 성과 데이터 */}
-      <Card>
+      <Card className="overflow-hidden">
         <div className="px-5 py-3 border-b flex items-center gap-2">
           <BarChart3 size={20} className="text-black"/>
           <h3 className="font-semibold text-black">캠페인별 성과 데이터</h3>

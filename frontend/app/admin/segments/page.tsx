@@ -15,6 +15,7 @@ export default function AdminSegmentsPage() {
   const [editingSegment, setEditingSegment] = useState<Segment | null>(null);
   const [activeTab, setActiveTab] = useState("segments");
   const router = useRouter();
+  const [childCounts, setChildCounts] = useState<Record<number, number>>({});
 
   const loadSegments = async () => {
     try {
@@ -33,6 +34,25 @@ export default function AdminSegmentsPage() {
   useEffect(() => {
     loadSegments();
   }, [searchQuery]);
+
+  useEffect(() => {
+    const loadChildCounts = async () => {
+      try {
+        const entries = await Promise.all(
+          segments.map(async (seg) => {
+            const children = await fetchChildrenByParentId(seg.id);
+            return [seg.id, children.length] as const;
+          })
+        );
+        const map: Record<number, number> = {};
+        for (const [id, count] of entries) map[id] = count;
+        setChildCounts(map);
+      } catch (e) {
+        // ignore
+      }
+    };
+    if (segments.length > 0) loadChildCounts();
+  }, [segments]);
 
   const handleTabClick = (tab: string) => {
     setActiveTab(tab);
@@ -155,7 +175,7 @@ export default function AdminSegmentsPage() {
               <div className="text-center">
                 <h3 className="text-lg font-semibold mb-2 text-black">{segment.name}</h3>
                 <div className="text-sm text-purple-600 mb-4">
-                  중분류 {segmentStats[segment.name]?.count || 0}개
+                  중분류 {childCounts[segment.id] ?? 0}개
                 </div>
                 
                 {/* 수정/삭제 버튼 */}
