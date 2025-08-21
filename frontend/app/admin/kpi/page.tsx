@@ -1,15 +1,17 @@
 "use client";
 import { useEffect, useState } from "react";
 import { getKpiDashboard, getCampaignsPerformance, type KpiDashboard, type CampaignPerformance } from "@/lib/api";
-import PageHeader from "@/components/ui/PageHeader";
 import { Card, CardBody } from "@/components/ui/Card";
 import { BarChart3, TrendingUp, Download } from "lucide-react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 export default function AdminKpiPage() {
   const [kpiData, setKpiData] = useState<KpiDashboard | null>(null);
   const [campaignPerformance, setCampaignPerformance] = useState<CampaignPerformance[]>([]);
   const [loading, setLoading] = useState(true);
+  const [activeTab, setActiveTab] = useState("kpi");
+  const router = useRouter();
 
   const loadData = async () => {
     try {
@@ -31,21 +33,35 @@ export default function AdminKpiPage() {
     loadData();
   }, []);
 
+  const handleTabClick = (tab: string) => {
+    setActiveTab(tab);
+    if (tab === "segments") {
+      router.push("/admin/segments");
+    }
+  };
+
   return (
     <div className="space-y-6">
-      {/* 헤더 */}
-      <PageHeader 
-        title="KPI 데이터 표출" 
-        tabs={
-          <div className="flex items-center justify-between rounded-full bg-white border shadow-sm px-3 py-2">
-            <div className="flex gap-6 text-sm">
-              <Link href="/admin/segments" className="text-black hover:text-gray-700">세그먼트 관리</Link>
-              <Link href="/admin/kpi" className="font-semibold text-black">KPI 데이터 표출</Link>
-            </div>
-            {/* CSV 다운로드 버튼 제거 */}
-          </div>
-        }
-      />
+      {/* Header with Title */}
+      <div className="flex justify-between items-center">
+        <h1 className="text-3xl font-bold text-white">KPI 데이터 표출</h1>
+      </div>
+
+      {/* Tab Menu */}
+      <div className="campaign-tab-container">
+        <button 
+          className={`campaign-tab ${activeTab === "segments" ? "active" : ""}`}
+          onClick={() => handleTabClick("segments")}
+        >
+          세그먼트 관리
+        </button>
+        <button 
+          className={`campaign-tab ${activeTab === "kpi" ? "active" : ""}`}
+          onClick={() => handleTabClick("kpi")}
+        >
+          KPI 데이터 집계
+        </button>
+      </div>
 
       {/* KPI 데이터 정의 카드들 */}
       <div className="grid md:grid-cols-4 gap-4">

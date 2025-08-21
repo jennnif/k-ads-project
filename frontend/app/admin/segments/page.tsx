@@ -1,11 +1,11 @@
 "use client";
 import { useEffect, useState } from "react";
 import { fetchParents, searchSegments, fetchChildrenByParentId, updateSegment, deleteSegment, createSegment, type Segment } from "@/lib/api";
-import PageHeader from "@/components/ui/PageHeader";
 import { Card, CardBody } from "@/components/ui/Card";
 import { Search, Plus, Edit, Trash2 } from "lucide-react";
 import Link from "next/link";
 import SegmentDialog from "./SegmentDialog";
+import { useRouter } from "next/navigation";
 
 export default function AdminSegmentsPage() {
   const [segments, setSegments] = useState<Segment[]>([]);
@@ -13,6 +13,8 @@ export default function AdminSegmentsPage() {
   const [loading, setLoading] = useState(true);
   const [dialogOpen, setDialogOpen] = useState(false);
   const [editingSegment, setEditingSegment] = useState<Segment | null>(null);
+  const [activeTab, setActiveTab] = useState("segments");
+  const router = useRouter();
 
   const loadSegments = async () => {
     try {
@@ -31,6 +33,13 @@ export default function AdminSegmentsPage() {
   useEffect(() => {
     loadSegments();
   }, [searchQuery]);
+
+  const handleTabClick = (tab: string) => {
+    setActiveTab(tab);
+    if (tab === "kpi") {
+      router.push("/admin/kpi");
+    }
+  };
 
   const handleEdit = (segment: Segment) => {
     setEditingSegment(segment);
@@ -91,14 +100,39 @@ export default function AdminSegmentsPage() {
 
   return (
     <div className="space-y-6">
-      {/* 헤더 */}
-      <PageHeader 
-        title="세그먼트 관리" 
-        tabs={
-          <div className="flex items-center justify-between rounded-full bg-white border shadow-sm px-3 py-2">
-            <div className="flex gap-6 text-sm">
-              <Link href="/admin/segments" className="font-semibold text-black">세그먼트 관리</Link>
-              <Link href="/admin/kpi" className="text-black hover:text-gray-700">KPI 데이터 집계</Link>
+      {/* Header with Title */}
+      <div className="flex justify-between items-center">
+        <h1 className="text-3xl font-bold text-white">세그먼트 관리</h1>
+      </div>
+
+      {/* Tab Menu */}
+      <div className="campaign-tab-container">
+        <button 
+          className={`campaign-tab ${activeTab === "segments" ? "active" : ""}`}
+          onClick={() => handleTabClick("segments")}
+        >
+          세그먼트 관리
+        </button>
+        <button 
+          className={`campaign-tab ${activeTab === "kpi" ? "active" : ""}`}
+          onClick={() => handleTabClick("kpi")}
+        >
+          KPI 데이터 집계
+        </button>
+      </div>
+
+      {/* 검색 및 세그먼트 생성 */}
+      <Card>
+        <CardBody>
+          <div className="flex items-center justify-between">
+            <div className="relative max-w-md">
+              <input 
+                className="w-full border rounded-lg pl-9 pr-3 py-2 text-black placeholder-black" 
+                placeholder="세그먼트 검색" 
+                value={searchQuery} 
+                onChange={(e) => setSearchQuery(e.target.value)}
+              />
+              <Search size={16} className="absolute left-3 top-2.5 text-gray-400"/>
             </div>
             <button 
               onClick={() => {
@@ -109,21 +143,6 @@ export default function AdminSegmentsPage() {
             >
               <Plus size={16}/> 세그먼트 생성
             </button>
-          </div>
-        }
-      />
-
-      {/* 검색 */}
-      <Card>
-        <CardBody>
-          <div className="relative max-w-md">
-            <input 
-              className="w-full border rounded-lg pl-9 pr-3 py-2 text-black placeholder-black" 
-              placeholder="세그먼트 검색" 
-              value={searchQuery} 
-              onChange={(e) => setSearchQuery(e.target.value)}
-            />
-            <Search size={16} className="absolute left-3 top-2.5 text-gray-400"/>
           </div>
         </CardBody>
       </Card>
