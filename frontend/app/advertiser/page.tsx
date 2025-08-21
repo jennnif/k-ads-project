@@ -53,7 +53,7 @@ export default function AdvertiserHomePage() {
             </div>
             <a 
               href="/advertiser/campaigns" 
-              className="mt-4 px-6 py-2 bg-white bg-opacity-20 text-black rounded-lg hover:bg-opacity-30 transition-all duration-300 border border-white border-opacity-30"
+              className="mt-4 px-6 py-2 bg-gradient-to-r from-white to-gray-100 text-black rounded-lg hover:from-gray-100 hover:to-white transition-all duration-300 border border-white border-opacity-30 shadow-lg hover:shadow-xl transform hover:-translate-y-1"
             >
               바로가기 →
             </a>
@@ -85,7 +85,7 @@ export default function AdvertiserHomePage() {
             </div>
             <a 
               href="/advertiser/kpi" 
-              className="mt-4 px-6 py-2 bg-white bg-opacity-20 text-black rounded-lg hover:bg-opacity-30 transition-all duration-300 border border-white border-opacity-30"
+              className="mt-4 px-6 py-2 bg-gradient-to-r from-white to-gray-100 text-black rounded-lg hover:from-gray-100 hover:to-white transition-all duration-300 border border-white border-opacity-30 shadow-lg hover:shadow-xl transform hover:-translate-y-1"
             >
               바로가기 →
             </a>
