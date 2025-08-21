@@ -53,49 +53,49 @@ export default function EditForm({ campaign }: { campaign: Campaign }) {
   return (
     <form onSubmit={onSubmit} className="grid gap-4 md:grid-cols-2">
       <div className="md:col-span-2">
-        <label className="block text-sm mb-1">이름</label>
-        <input className="w-full border rounded-md p-2"
+        <label className="block text-sm mb-1 text-white">이름</label>
+        <input className="w-full border rounded-md p-2 text-white"
                value={form.name}
                onChange={(e)=>setForm({...form, name: e.target.value})}/>
       </div>
       <div>
-        <label className="block text-sm mb-1">상태</label>
-        <select className="w-full border rounded-md p-2"
+        <label className="block text-sm mb-1 text-white">상태</label>
+        <select className="w-full border rounded-md p-2 text-white"
                 value={form.status}
                 onChange={(e)=>setForm({...form, status: e.target.value})}>
-          <option>DRAFT</option><option>ACTIVE</option><option>PAUSED</option><option>ENDED</option>
+          <option className="text-black">DRAFT</option><option className="text-black">ACTIVE</option><option className="text-black">PAUSED</option><option className="text-black">ENDED</option>
         </select>
       </div>
       <div>
-        <label className="block text-sm mb-1">예산(원)</label>
-        <input type="number" className="w-full border rounded-md p-2"
+        <label className="block text-sm mb-1 text-white">예산(원)</label>
+        <input type="number" className="w-full border rounded-md p-2 text-white"
                value={form.budget}
                onChange={(e)=>setForm({...form, budget: e.target.value})}/>
       </div>
       <div>
-        <label className="block text-sm mb-1">시작일</label>
-        <input type="date" className="w-full border rounded-md p-2"
+        <label className="block text-sm mb-1 text-white">시작일</label>
+        <input type="date" className="w-full border rounded-md p-2 text-white"
                value={form.startDate}
                onChange={(e)=>setForm({...form, startDate: e.target.value})}/>
       </div>
       <div>
-        <label className="block text-sm mb-1">종료일</label>
-        <input type="date" className="w-full border rounded-md p-2"
+        <label className="block text-sm mb-1 text-white">종료일</label>
+        <input type="date" className="w-full border rounded-md p-2 text-white"
                value={form.endDate}
                onChange={(e)=>setForm({...form, endDate: e.target.value})}/>
       </div>
       <div>
-        <label className="block text-sm mb-1">세그먼트</label>
-        <select className="w-full border rounded-md p-2"
+        <label className="block text-sm mb-1 text-white">세그먼트</label>
+        <select className="w-full border rounded-md p-2 text-white"
                 value={form.segmentId}
                 onChange={(e)=>setForm({...form, segmentId: e.target.value})}>
-          {segments.map(s => <option key={s.id} value={s.id}>[{s.id}] {s.name}</option>)}
+          {segments.map(s => <option key={s.id} value={s.id} className="text-black">[{s.id}] {s.name}</option>)}
         </select>
       </div>
-      {err && <div className="md:col-span-2 text-red-500 text-sm">{err}</div>}
-      <div className="md:col-span-2">
+      {err && <div className="md:col-span-2 text-red-300 text-sm">{err}</div>}
+      <div className="md:col-span-2 flex justify-center">
         <button type="submit" disabled={loading}
-                className="px-4 py-2 rounded-md bg-black text-white disabled:opacity-50">
+                className="px-4 py-2 rounded-md bg-black text-white border-2 border-white disabled:opacity-50">
           {loading ? "저장 중..." : "수정 저장"}
         </button>
       </div>
