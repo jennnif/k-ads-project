@@ -3,6 +3,8 @@ package com.kt.kads.controller;
 import com.kt.kads.entity.Campaign;
 import com.kt.kads.repository.CampaignRepository;
 import com.kt.kads.repository.SegmentRepository; // 부모 존재 체크 용
+import com.kt.kads.dto.CampaignDto.CampaignUpsertRequest;
+import com.kt.kads.dto.CampaignDto.CampaignResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -129,36 +131,7 @@ public class CampaignAdminController {
         return ResponseEntity.noContent().build();
     }
 
-    /* ======= DTO & validate ======= */
-
-    public record CampaignUpsertRequest(
-            String name,
-            Campaign.Status status,
-            String budget,     // decimal string e.g. "100000.00"
-            String startDate,  // yyyy-MM-dd
-            String endDate,    // yyyy-MM-dd
-            Long segmentId
-    ) {}
-
-    public record CampaignResponse(
-            Long id, String name, Campaign.Status status,
-            String budget, String startDate, String endDate,
-            Long segmentId, String createdAt, String updatedAt
-    ) {
-        public static CampaignResponse from(Campaign c) {
-            return new CampaignResponse(
-                    c.getId(),
-                    c.getName(),
-                    c.getStatus(),
-                    c.getBudget().toPlainString(),
-                    c.getStartDate().toString(),
-                    c.getEndDate().toString(),
-                    c.getSegmentId(),
-                    c.getCreatedAt().toString(),
-                    c.getUpdatedAt().toString()
-            );
-        }
-    }
+    /* ======= validate ======= */
 
     private void validate(CampaignUpsertRequest req) {
         if (req.name() == null || req.name().trim().isEmpty()) {

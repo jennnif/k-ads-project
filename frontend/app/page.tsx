@@ -1,17 +1,31 @@
+// app/page.tsx
+import { Jua } from "next/font/google";
+
+const jua = Jua({
+  weight: "400",
+  subsets: ["latin"], // 한국어 포함됨
+});
+
 export default function Home() {
   return (
-    <div className="bg-gradient-to-br from-blue-50 to-purple-50 min-h-screen">
+    <div className="min-h-screen">
       {/* Hero Section */}
       <div className="px-6 py-16">
         <div className="text-center mb-16">
           <div className="inline-flex items-center justify-center w-20 h-20 bg-blue-600 rounded-2xl mb-6">
             <span className="text-3xl font-bold text-white">K</span>
           </div>
-          <h1 className="text-6xl font-extrabold text-white mb-4 font-serif">
-            K-ADS에 오신 것을 환영합니다
+
+          {/* Jua 폰트 + 그라디언트 텍스트 */}
+          <h1
+            className={`${jua.className} text-5xl md:text-6xl font-extrabold mb-4 tracking-tight`}
+          >
+            <span className="text-blue-400">K-ADS</span>
+            <span className="text-white">를 이용해보세요!</span>
           </h1>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
-            맞춤형 문자광고 서비스로 고객과의 소통을 더욱 효과적으로 만들어보세요
+
+          <p className="text-lg md:text-xl text-gray-300 max-w-3xl mx-auto leading-relaxed">
+            맞춤형 문자광고 서비스로 고객과의 소통을 더욱 효과적으로 만들 수 있습니다
           </p>
         </div>
 
@@ -52,19 +66,19 @@ export default function Home() {
         <div className="mb-16 grid md:grid-cols-4 gap-8 text-center">
           <div>
             <div className="text-3xl font-bold text-blue-600 mb-2">99.9%</div>
-            <div className="text-gray-600">전송 성공률</div>
+            <div className="text-gray-300">전송 성공률</div>
           </div>
           <div>
             <div className="text-3xl font-bold text-green-600 mb-2">24/7</div>
-            <div className="text-gray-600">실시간 모니터링</div>
+            <div className="text-gray-300">실시간 모니터링</div>
           </div>
           <div>
             <div className="text-3xl font-bold text-purple-600 mb-2">1000+</div>
-            <div className="text-gray-600">활성 캠페인</div>
+            <div className="text-gray-300">활성 캠페인</div>
           </div>
           <div>
             <div className="text-3xl font-bold text-blue-600 mb-2">50만+</div>
-            <div className="text-gray-600">월간 메시지</div>
+            <div className="text-gray-300">월간 메시지</div>
           </div>
         </div>
 

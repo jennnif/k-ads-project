@@ -17,14 +17,16 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           rel="stylesheet"
         />
       </head>
-      {/* 전체 페이지 배경을 그라디언트로 */}
+
+      {/* 화면 전체 파스텔 그라디언트 배경 */}
       <body
-        className="min-h-dvh bg-gradient-to-br from-blue-50 to-purple-50 text-gray-900 antialiased"
+        className="min-h-screen bg-gradient-to-br from-blue-50 to-purple-50 text-gray-900 antialiased"
         style={{
           fontFamily:
             "Pretendard Variable, Pretendard, system-ui, -apple-system, Segoe UI, Roboto, 'Noto Sans KR', Arial, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'",
         }}
       >
+        {/* 상단 헤더 */}
         <header className="sticky top-0 z-10 bg-white/90 backdrop-blur border-b border-gray-200">
           <div className="mx-auto max-w-6xl px-5 py-3 flex items-center justify-between">
             <div className="flex items-center gap-3">
@@ -33,7 +35,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                 <div className="h-8 w-8 rounded-lg bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center shadow-md">
                   <span className="text-white font-bold text-sm">K</span>
                 </div>
-                {/* 작은 점으로 브랜드 아이덴티티 강화 */}
                 <div className="absolute -top-1 -right-1 h-3 w-3 bg-orange-400 rounded-full" />
               </div>
 
@@ -64,7 +65,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           </div>
         </header>
 
-        <main className="mx-auto max-w-6xl px-5 py-8 bg-transparent">{children}</main>
+        {/* 메인 컨텐츠 */}
+        <main className="mx-auto max-w-6xl px-5 py-8 bg-transparent">
+          {children}
+        </main>
       </body>
     </html>
   );

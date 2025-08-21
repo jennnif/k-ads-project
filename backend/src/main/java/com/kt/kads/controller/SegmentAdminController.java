@@ -3,6 +3,9 @@ package com.kt.kads.controller;
 import com.kt.kads.entity.Segment;
 import com.kt.kads.repository.SegmentRepository;
 import com.kt.kads.service.SegmentService;
+import com.kt.kads.dto.SegmentDto.SegmentResponse;
+import com.kt.kads.dto.SegmentDto.SegmentCreateRequest;
+import com.kt.kads.dto.SegmentDto.SegmentUpdateRequest;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -151,15 +154,4 @@ public class SegmentAdminController {
         repo.delete(seg);
         return ResponseEntity.noContent().build();
     }
-
-    /* =========================
-     * DTOs
-     * ========================= */
-    public record SegmentResponse(Long id, String name, Long parentId) {
-        public static SegmentResponse from(Segment s) {
-            return new SegmentResponse(s.getId(), s.getName(), s.getParentId());
-        }
-    }
-    public record SegmentCreateRequest(String name, Long parentId) {}
-    public record SegmentUpdateRequest(String name, Long parentId) {}
 }

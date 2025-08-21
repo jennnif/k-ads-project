@@ -3,6 +3,8 @@ package com.kt.kads.controller;
 import com.kt.kads.entity.Message;
 import com.kt.kads.repository.MessageRepository;
 import com.kt.kads.repository.CampaignRepository; 
+import com.kt.kads.dto.MessageDto.MessageUpsertRequest;
+import com.kt.kads.dto.MessageDto.MessageResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -102,34 +104,11 @@ public class MessageAdminController {
         return ResponseEntity.noContent().build();
     }
 
-    /* ====== DTO/validate/mapping ====== */
-
-    public record MessageUpsertRequest(
-            Long campaignId,
-            Message.Type type,
-            String title,
-            String content,
-            Message.Status status
-    ) {}
-
-    public record MessageResponse(
-            Long id, Long campaignId, Message.Type type,
-            String title, String content, Message.Status status,
-            String createdAt, String updatedAt
-    ) {
-        public static MessageResponse from(Message m) {
-            return new MessageResponse(
-                    m.getId(), m.getCampaignId(), m.getType(),
-                    m.getTitle(), m.getContent(), m.getStatus(),
-                    m.getCreatedAt().toString(), m.getUpdatedAt().toString()
-            );
-        }
-    }
+    /* ====== validate/mapping ====== */
 
     private void validate(MessageUpsertRequest req) {
         if (req.campaignId() == null) throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "campaignId is required");
         if (req.type() == null) throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "type is required");
-        if (req.status() == null) throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "status is required");
         if (req.title() == null || req.title().trim().isEmpty()) throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "title is required");
         if (req.title().trim().length() > 100) throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "title too long (max 100)");
         if (req.content() == null || req.content().trim().isEmpty()) throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "content is required");
@@ -141,7 +120,7 @@ public class MessageAdminController {
         m.setType(req.type());
         m.setTitle(req.title().trim());
         m.setContent(req.content().trim());
-        m.setStatus(req.status());
+        m.setStatus(Message.Status.DRAFT); // 기본값으로 설정
         return m;
     }
 }
